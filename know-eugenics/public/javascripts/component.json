@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "component/events": "*",
+    "component-domify": "*",
+    "component/domify": "*"
+  }
+}

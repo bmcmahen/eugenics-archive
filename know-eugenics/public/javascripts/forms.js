@@ -1,16 +1,27 @@
+// TO DO:
+// 
+// Bind events to onsubmit, which will need to be done
+// after the element is rendered. 
+// 
+// Parse the form, and perform PUT, POST, DELETE
+
+
 // I need to create a schema for each type, then determine
 // what additional fields are required due to the applications
 // tag. I need to dynamically add new fields when an application
 // is selected, and then be able to parse that form into an object
 // on submission. 
 
+// Dependencies
+var events = require('component-events')
+  , domify = require('component-domify');
+
 // API
 var createForm = function(attributes, requiredFields) {
   attributes = attributes || {};
   required = requiredFields || [];
   return new Formset(attributes, required)
-    .determineFields()
-    .render();
+    .determineFields();
 };
 
 
@@ -71,32 +82,60 @@ _.extend(Formset.prototype, {
       self.fields[key].value = value; 
     });
 
-  },
-
-  // This should eventually use a template system. 
-  render : function() {
-    var html = ''
-      , fieldMap = {
-        'textarea' : '<textarea>a text area</textarea>',
-        'text': '<input type="text">'
-      };
-
-    _.each(this.fields, function(obj, key){
-      var widget = fieldMap[obj.widget];
-      if (typeof widget != 'undefined')
-        html += widget;
-    });
-
-    html += '<input type="submit">';
-    this.el = html;
-    return this; 
   }
 
 });
 
 
+// Form View
+var FormView = function(model) {
+  if (!model)
+    throw new TypeError('form-view required a form-model');
+  
+  this.model = model;
+
+};
+
+
+_.extend(FormView.prototype, {
+
+  // This should eventually use a template system. 
+  render : function() {
+    var html = '<form id="myform">'
+      , fieldMap = {
+        'textarea' : '<textarea>a text area</textarea>',
+        'text': '<input type="text">'
+      };
+
+    _.each(this.model.fields, function(obj, key){
+      var widget = fieldMap[obj.widget];
+      if (typeof widget != 'undefined')
+        html += widget;
+    });
+
+    html += '<input type="submit"></form>';
+    this.el = html;
+    $('#formset').append(this.el);
+    this.bind(); 
+    return this; 
+  },
+
+  bind : function() {
+    this.events = events(this.el, this);
+    console.log(this.el);
+    this.events.bind('onsubmit');
+  },
+
+  onsubmit : function() {
+    console.log('i submitted it!');
+  }
+});
 
 var myform = createForm({},['event', 'timeline']);
-var formsetel = document.getElementById('formset');
-formsetel.innerHTML = myform.el;
-console.log(myform);
+var myformview = new FormView(myform);
+myformview.render(); 
+
+var div = document.getElementById('formset');
+div.innerHTML = div; 
+
+console.log(myform, myformview);

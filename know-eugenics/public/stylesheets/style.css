@@ -5130,7 +5130,7 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
-#formset textarea,
-#formset input[type='text'] {
+#myForm textarea,
+#myForm input[type='text'] {
   display: block;
 }
