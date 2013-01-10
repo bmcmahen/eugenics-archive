@@ -1,5 +1,13 @@
-// XXX To do: When forms are removed (switching prod) the values
+// XXX To do: 
+// 
+// (1) When forms are removed (switching prod) the values
 // aren't actually removed from the model? 
+//  
+//  - This is the case. I would need to use the unset
+//    or clear methods. 
+// 
+// (2) Validation
+// (3) Save to the server
 
 
 // The field types that are required by each field type, and 
@@ -31,10 +39,21 @@ var fieldTypes = {
         startDate : { widget: 'text', label: 'Start Date'},
         endDate : { widget: 'text', label: 'End Date' }
       }
+    },
+
+    heroes : function() {
+      return {
+        heroQuote: { widget: 'text', label: 'Hero Quote', className: 'hero'},
+        villainQuote: { widget: 'text', label: 'Villain Quote', className: 'villain'}
+      }
     }
 
   };
 
+
+
+// 
+// 
 // Form Model
 // 
 // Invoked using: 
@@ -61,7 +80,7 @@ var FormModel = Backbone.Model.extend({
 
   defaults: {
 
-    type: 'event',
+    type: ['event'],
     title: '',
     shortDescription: '',
     fullDescription: '',
@@ -121,11 +140,12 @@ var FormView = Backbone.View.extend({
   id: 'myForm',
 
   events: {
-    'submit' : 'parseForm',
+    'submit' : 'saveForm',
     'click .prod' : 'alterProds'
   },
 
-  initialize: function() {
+  initialize: function(opt) {
+    this.dataModel = opt.dataModel; 
     this.listenTo(this.model, 'change', this.render);
   },
 
@@ -188,51 +208,71 @@ var FormView = Backbone.View.extend({
     return json; 
   },
 
+  // Activated when a prod is either added or removed. Used
+  // for adding or removing the necessary fields. 
+  
   alterProds : function(e) {
 
     var $checkbox = $(e.currentTarget).find('input')
       , isChecked = $checkbox.attr('checked')
-      , prods = this.model.get('prods');
-
-    var parsed = this.parseForm(); 
-
-    // if (isChecked) {
-    //   prods.push($checkbox.attr('name'));
-    // } else {
-    //   // pull
-    // }
+      , prods = this.model.get('prods')
+      , parsed = this.parseForm(); 
 
     this.model.set(parsed);
 
+    // I need to unset attributes that have been removed
+    // through deselecting a prod. 
+  
+    if (!isChecked) {
 
-    // (1) ParseForm and attach value attributes to the model.
-    // 
+      var name = $checkbox.attr('name')
+        , fields = fieldTypes[name]()
+        , unique = []; 
+
+      // Create an array of fields removed
     
+      for (key in fields){
+        if (!this.model.fields[key])
+          unique.push(key);
+      }
+      
+      // I'm unsetting the data model. I'm not sure if this
+      // is the best approach, as it could complicate validation
+      // and logic. 
+      
+      _.each(unique, function(key){
+        this.dataModel.unset(key);
+      }, this);
+    }
 
-    // var prods = this.model.get('prods');
-    // prods.push('timeline');
+  },
 
-    // this.model.set(prods);
+  saveForm : function(e){
+    e.preventDefault();
 
-    // I could also just serialize the form, set the attributes
-    // to the data model, and then determine the fields -- 
-    // this will then allow me to redraw with the current
-    // values, without losing data. [PROBABLY EASIEST APPROACH]
-    // 
-    // (1) Determine what fields need to be added.
-    // (2) Add them to the model? 
-    // (3) This will automatically rerender the entire form.
-    // What is probably better, is to have a collection of
-    // fields -- when a field is added, then that field is appended
-    // instead of redrawing the entire form?
+    var parsed = this.parseForm();
+
+    this.dataModel.set(parsed);
+    console.log(this.dataModel.toJSON());
   }
 
 });
 
-var formModel = new FormModel({type: ['event'], prods: [], title: 'my title', shortDescription: 'a short description.'});
-console.log(formModel);
-var formView = new FormView({model: formModel});
-formView.render(); 
-// console.log(formModel, formView);
 
- $('body').append(formView.el);
+// Data Model
+// 
+// This contains the attributes of each document, which will be synced
+// with the server.
+
+var DataModel = Backbone.Model.extend({
+
+  initialize: function(){
+    this.formModel = new FormModel(this.toJSON());
+    this.formView = new FormView({model: this.formModel, dataModel: this});
+    this.formView.render(); 
+    $('body').append(this.formView.el);
+  }
+
+});
+
+var data = new DataModel({prods: ['timeline']}); 
