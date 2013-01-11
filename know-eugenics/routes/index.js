@@ -1,5 +1,6 @@
 var database = require('../database')
-  , moment = require('moment');
+  , moment = require('moment')
+  , sortToArray = require('../sortOrder');
 
 function humanizeDate(jsdate){
   var d = moment(jsdate);
@@ -45,7 +46,38 @@ exports.getCollection = function(req, res){
   }
 };
 
+exports.getDocument = function(req, res) {
+  var Model = paramToModel[req.params.collection];
+  if (Model) {
+    Model.findById(req.params.id)
+      .lean()
+      .exec(function(err, doc){
+        if (!err) {
+          res.render('get-document', {
+            documentType: req.params.collection,
+            fields : sortToArray(doc),
+            doc : doc
+          });
+        }
+      })
+  }
+};
+
 exports.editDocument = function(req, res){
-  res.render('edit-document');
+
+  var Model = paramToModel[req.params.collection];
+  if (Model) {
+    Model.findById(req.params.id)
+      .lean()
+      .exec(function(err, doc){
+        if (!err) {
+          res.render('edit-document', {
+            documentType: req.params.collection,
+            doc : doc
+          });
+        }
+      })
+  }
+ 
 };
 

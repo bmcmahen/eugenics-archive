@@ -59,6 +59,7 @@ app.get('/users', user.list);
 
 app.get('/documents/:collection', routes.getCollection);
 app.get('/documents/:collection/edit/:id', routes.editDocument);
+app.get('/documents/:collection/:id', routes.getDocument);
 
 // API 
 require('./api')(app);

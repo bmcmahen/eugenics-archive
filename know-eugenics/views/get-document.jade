@@ -1,0 +1,31 @@
+extends layout
+
+mixin parseObject(array)
+  div
+    each val, i in array
+      if typeof val.value === 'string'
+        p #{val.label} --- #{val.value}
+      if val.label === 'date'
+        p #{val.label} --- #{val.value.toDateString()}
+      if val.label === 'created'
+        p #{val.label} --- #{val.value.toDateString()}
+      if val.label === 'prods'
+        .prods
+          span
+            strong Prods: 
+          each prod in val.value
+            span #{prod}
+
+block breadcrumbs
+  li
+    a(href="/") Home
+    span.divider /
+  li
+    a(href="/documents/"+documentType)=documentType
+    span.divider /
+  li.active=doc.title
+
+block content
+  h3=documentType
+  mixin parseObject(fields)
+  a(href='/documents/'+ documentType +'/edit/'+doc._id) Edit

@@ -68,7 +68,8 @@ var init = function(app){
       res.send(500);
     });
   }
-  })
+  
+  });
 
 }
 

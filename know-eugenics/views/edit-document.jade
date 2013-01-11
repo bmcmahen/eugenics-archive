@@ -1,7 +1,21 @@
 extends layout
 
+
+block breadcrumbs
+  li
+    a(href="/") Home
+    span.divider /
+  li
+    a(href="/documents/"+documentType)=documentType
+    span.divider /
+  li
+    a(href='/documents/'+documentType+'/'+doc._id)=doc.title
+    span.divider / 
+  li.active Edit
+
+
 block content
-  h1 Edit document
+  h3 Edit document
   #form-wrapper
     
   script(src='/javascripts/backbone-forms.js')

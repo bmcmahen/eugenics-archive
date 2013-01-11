@@ -1,14 +1,9 @@
 // XXX To do: 
 // 
-// (1) When forms are removed (switching prod) the values
-// aren't actually removed from the model? 
-//  
-//  - This is the case. I would need to use the unset
-//    or clear methods. 
 // 
-// (2) Validation
-// (3) Save to the server
+//  Validation
 
+var confirmation = require('bmcmahen-confirmation');
 
 // The field types that are required by each field type, and 
 // each prod. The app uses these to determine what fields
@@ -141,7 +136,8 @@ var FormView = Backbone.View.extend({
 
   events: {
     'submit' : 'saveForm',
-    'click .prod' : 'alterProds'
+    'click .prod' : 'alterProds',
+    'click .delete' : 'deleteDocument'
   },
 
   initialize: function(opt) {
@@ -158,9 +154,10 @@ var FormView = Backbone.View.extend({
         html += widget;
     }, this);
 
-    html += '<input type="submit" class="btn btn-primary">';
+    html += '<input type="submit" class="btn btn-primary" value="Save">';
 
     this.$el.html(html);
+    this.$el.append('<a class="delete btn btn-danger">Delete</a>')
     return this; 
   },
 
@@ -202,9 +199,6 @@ var FormView = Backbone.View.extend({
     });
 
     json.prods = prods; 
-
-    console.log('parsing results', json);
-
     return json; 
   },
 
@@ -252,6 +246,22 @@ var FormView = Backbone.View.extend({
     var parsed = this.parseForm();
     this.dataModel.set(parsed);
     this.dataModel.save(); 
+  },
+
+  deleteDocument : function(e){
+    e.preventDefault();
+    var self = this; 
+
+    var confirm = confirmation({
+      title: 'Delete Document',
+      content: 'Are you sure you want to delete this document?',
+      okay: 'Delete',
+      cancel: 'Cancel'
+    }).effect('slide')
+      .show()
+      .okay(function(e){
+        self.dataModel.destroy(); 
+      });
   }
 
 });

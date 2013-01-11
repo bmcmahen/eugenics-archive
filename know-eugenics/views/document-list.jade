@@ -16,9 +16,16 @@ mixin parseObject(obj)
           each prod in val
             span #{prod}
 
+block breadcrumbs
+  li
+    a(href="/") Home
+    span.divider /
+  li.active=documentType
+
 block content
-  h1=documentType
+  h3=documentType
   ul.documents
   each doc, key in documents
     mixin parseObject(doc)
+    a(href='/documents/'+ documentType +'/'+doc._id) View
     a(href='/documents/'+ documentType +'/edit/'+doc._id) Edit

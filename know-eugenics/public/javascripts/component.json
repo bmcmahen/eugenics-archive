@@ -1,7 +1,6 @@
 {
   "dependencies": {
-    "component/events": "*",
-    "component-domify": "*",
-    "component/domify": "*"
+    "bmcmahen/confirmation": "*",
+    "bmcmahen/canvas-loading-animation": "*"
   }
 }
