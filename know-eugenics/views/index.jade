@@ -6,19 +6,27 @@ block breadcrumbs
 block content
   .row
     .span12
-      h1= title
-      p Welcome to Living Archives on Eugenics Database.
+      h3= title
+      p.blurb Welcome to Living Archives on Eugenics Database
   .row
-    ul.span2#pale
-      li
-        a(href='/documents/events') Events
-      li 
+    .span3
+      .wrapper
+        .header-image
+        .header-text
+          a(href='/documents/events') Events
+    .span3
+      .wrapper
         a(href='/documents/ideas') Ideas
-      li
-        a(href='/documents/institutions') Institutions
-      li
+    .span3
+      .wrapper
         a(href='/documents/people') People
-      li
+    .span3
+      .wrapper
+        a(href='/documents/institutions') Institutions
+  .row
+    .span3
+      .wrapper
         a(href='/documents/places') Places
-      li
+    .span3
+      .wrapper
         a(href='/documents/publications') Publications
