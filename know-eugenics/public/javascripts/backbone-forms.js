@@ -274,14 +274,18 @@ var DataModel = Backbone.Model.extend({
 
     this.urlRoot = options.urlRoot; 
     this.fetch({ success: function(res){
+
       self.formModel = new FormModel(self.toJSON());
-      self.formView = new FormView({model: self.formModel, dataModel: self});
+      self.formView = new FormView({
+        model: self.formModel, 
+        dataModel: self
+      });
       self.formView.render(); 
-      $('body').append(self.formView.el);
+      $('#form-wrapper').append(self.formView.el);
     }});
 
     this.on('sync', function(model, resp, options){
-     console.log('synced', res);
+     console.log('synced', resp);
     }, this);
 
     this.on('error', function(){

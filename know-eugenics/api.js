@@ -54,6 +54,20 @@ var init = function(app){
       });
     }
 
+  });
+
+  app.delete('/api/documents/:doctype/:id', function(req, res){
+    var doctype = req.params.doctype
+    , id = req.params.id
+    , Model = paramToModel[doctype]; 
+
+  if (Model) {
+    Model.remove(id, function(err, doc){
+      if (!err)
+        res.send(203);
+      res.send(500);
+    });
+  }
   })
 
 }
