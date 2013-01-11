@@ -1,0 +1,24 @@
+extends layout
+
+mixin parseObject(obj)
+  div
+    each val, key in obj
+      if typeof val === 'string'
+        p #{key} --- #{val}
+      if key === 'date'
+        p #{key} --- #{val.toDateString()}
+      if key === 'created'
+        p #{key} --- #{val.toDateString()}
+      if key === 'prods'
+        .prods
+          span
+            strong Prods: 
+          each prod in val
+            span #{prod}
+
+block content
+  h1=documentType
+  ul.documents
+  each doc, key in documents
+    mixin parseObject(doc)
+    a(href='/documents/'+ documentType +'/edit/'+doc._id) Edit

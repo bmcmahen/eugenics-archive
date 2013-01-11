@@ -17,7 +17,8 @@ var express = require('express')
 
 require('./database');
 
-var app = module.exports = express();
+
+var app = express();
 
 // Use nib to handle endless, endless prefixes
 function compile(str, path) {
@@ -48,11 +49,22 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+// Universal Attributes (aka Locals)
+
+app.locals.title = 'LAE Database';
+
 // Router
 app.get('/', routes.index);
 app.get('/users', user.list);
+
+app.get('/documents/:collection', routes.getCollection);
+app.get('/documents/:collection/edit/:id', routes.editDocument);
+
+// API 
+require('./api')(app);
 
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+

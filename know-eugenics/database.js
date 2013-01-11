@@ -26,7 +26,7 @@ var sharedFields = {
   fullDescription: String,
   created: { type: Date, default: Date.now },
   image: {},
-  applications: []
+  prods: []
 };
 
 
@@ -34,9 +34,9 @@ var sharedFields = {
 var sharedSchema = new Schema(sharedFields, { strict : false });
 
 // Places, Ideas, and Institutions
-exports.Institution = mongoose.model('Institution', sharedSchema);
-exports.Idea = mongoose.model('Idea', sharedSchema);
-exports.Places = mongoose.model('Places', sharedSchema);
+exports.institution = mongoose.model('Institution', sharedSchema);
+exports.idea = mongoose.model('Idea', sharedSchema);
+exports.place = mongoose.model('Place', sharedSchema);
 
 // Event Schema
 var eventSchema = new Schema( 

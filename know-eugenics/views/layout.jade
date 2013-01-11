@@ -7,7 +7,15 @@ html
     script(src='/javascripts/underscore-min.js')
     script(src='/javascripts/backbone-min.js')
   body
-    block navigation
-    block content
 
-    script(src='/javascripts/backbone-forms.js')
+    block navigation
+      .navbar.navbar-inverse.navbar-fixed-top
+        .navbar-inner
+          .container
+            a.brand(href='#') LAE Database
+            a.pull-right.btn Login
+
+    .container
+
+      block content
+

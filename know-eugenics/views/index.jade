@@ -1,9 +1,22 @@
 extends layout
 
-block navigation
-  p Hello world
 
 block content
-  h1= title
-  p Welcome to #{title}
-  div#formset(name='form')
+  .row
+    .span12
+      h1= title
+      p Welcome to Living Archives on Eugenics Database.
+  .row
+    ul.span2#pale
+      li
+        a(href='/documents/events') Events
+      li 
+        a(href='/documents/ideas') Ideas
+      li
+        a(href='/documents/institutions') Institutions
+      li
+        a(href='/documents/people') People
+      li
+        a(href='/documents/places') Places
+      li
+        a(href='/documents/publications') Publications

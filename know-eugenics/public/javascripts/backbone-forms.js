@@ -241,7 +241,7 @@ var FormView = Backbone.View.extend({
       // and logic. 
       
       _.each(unique, function(key){
-        this.dataModel.unset(key);
+        this.dataModel.unset(key, {silent: true});
       }, this);
     }
 
@@ -249,11 +249,9 @@ var FormView = Backbone.View.extend({
 
   saveForm : function(e){
     e.preventDefault();
-
     var parsed = this.parseForm();
-
     this.dataModel.set(parsed);
-    console.log(this.dataModel.toJSON());
+    this.dataModel.save(); 
   }
 
 });
@@ -266,13 +264,37 @@ var FormView = Backbone.View.extend({
 
 var DataModel = Backbone.Model.extend({
 
-  initialize: function(){
-    this.formModel = new FormModel(this.toJSON());
-    this.formView = new FormView({model: this.formModel, dataModel: this});
-    this.formView.render(); 
-    $('body').append(this.formView.el);
+  idAttribute: '_id',
+
+  urlRoot: '/documents',
+
+  initialize: function(attr, options){
+
+    var self = this; 
+
+    this.urlRoot = options.urlRoot; 
+    this.fetch({ success: function(res){
+      self.formModel = new FormModel(self.toJSON());
+      self.formView = new FormView({model: self.formModel, dataModel: self});
+      self.formView.render(); 
+      $('body').append(self.formView.el);
+    }});
+
+    this.on('sync', function(model, resp, options){
+     console.log('synced', res);
+    }, this);
+
+    this.on('error', function(){
+      console.log('error');
+    });
+
   }
 
 });
 
-var data = new DataModel({prods: ['timeline']}); 
+// Eventually this sort of thing will go in the Backbone router
+// which will be included on every page. This way, if I'm looking at
+// a list of documents in regular html, but want to edit one. Then I'll 
+// just point the URL to something that triggers a function in backbone
+// with a unique identifier. 
+

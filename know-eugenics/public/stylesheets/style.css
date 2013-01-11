@@ -5130,6 +5130,9 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
+body {
+  padding-top: 60px;
+}
 #myForm textarea,
 #myForm input[type='text'] {
   display: block;
