@@ -7,4 +7,4 @@ Boring techno-tes: I'm using Express, Mongoose (to help with Mongodb), Jade, and
 
 - [] Convert Models to a single model type, with a different field for type (type: ['event', 'person']). This would make queries easier, although less efficient. 
 - [] Validation on the client-side for forms. 
-- [] Create generic sorting function that converts an object to an array, and sorts that array given a specified order. In other words, I will declare that I want the following order: title, shortDescription, fullDescription, Date (and then anything goes after that). 
+- [x] Create generic sorting function that converts an object to an array, and sorts that array given a specified order. In other words, I will declare that I want the following order: title, shortDescription, fullDescription, Date (and then anything goes after that). 
