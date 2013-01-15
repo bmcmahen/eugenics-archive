@@ -55,14 +55,18 @@ app.locals.title = 'LAE Database';
 
 // Router
 app.get('/', routes.index);
-app.get('/users', user.list);
-
+app.get('/documents/new', routes.newDocument);
 app.get('/documents/:collection', routes.getCollection);
 app.get('/documents/:collection/edit/:id', routes.editDocument);
 app.get('/documents/:collection/:id', routes.getDocument);
 
+
 // API 
 require('./api')(app);
+require('./params')(app);
+
+
+// Params
 
 
 http.createServer(app).listen(app.get('port'), function(){

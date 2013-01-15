@@ -2,7 +2,7 @@ var Router = Backbone.Router.extend({
 
   routes: {
     'documents/:doctype/edit/:id' : 'editDocument',
-    'documents/new/:type' : 'newDocument'
+    'documents/new' : 'newDocument'
   },
 
   editDocument: function(doctype, id){
@@ -12,7 +12,9 @@ var Router = Backbone.Router.extend({
   },
 
   newDocument: function(type){
-    var data = new DataModel([type]);
+    console.log('new document');
+    var urlRoot = '/api/documents/new';
+    var data = new DataModel({}, { urlRoot: urlRoot });
   }
 
 });

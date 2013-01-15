@@ -1,5 +1,5 @@
-var database = require('./database')
-  , paramToModel = require('./routes').paramToModel; 
+var Documents = require('./database').Document
+  , _ = require('underscore'); 
 
 var init = function(app){
 
@@ -7,7 +7,7 @@ var init = function(app){
   app.post('/api/documents/:doctype', function(req, res){
     
     var content = req.body
-      , doc = new database.event(content);
+      , doc = new Documents(content);
 
     doc.save(function (err){
       if (!err)
@@ -17,58 +17,46 @@ var init = function(app){
 
   });
 
+
   // Retrieves JSON for document that we are editing
   app.get('/api/documents/:doctype/:id', function(req, res){
     
-    var doctype = req.params.doctype
-      , id = req.params.id
-      , Model = paramToModel[doctype]; 
-
-    if (Model) {
-      Model.findById(id)
-        .lean()
-        .select('-created')
-        .exec(function (err, doc){
-          if (!err) {
-            console.log(doc);
-            res.send(doc);
-          }
-        });
+    if (req.doc) {
+      res.send(doc);
     }
 
   });
 
+
+  // Submits an Edit of the document
   app.put('/api/documents/:doctype/:id', function(req, res){
    
-    var doctype = req.params.doctype
-      , id = req.params.id
-      , Model = paramToModel[doctype];
+   if (req.doc) {
 
-    delete req.body._id;
+    _.extend(req.doc, req.body);
 
-    if (Model) {
-      Model.findByIdAndUpdate(id, req.body, function(err, doc){
+    req.doc.save(function(err){
+      if (!err)
+        return res.send(202);
+      return res.send(500);
+    });
+
+   }
+  
+  });
+
+
+  // Deletes a document
+  app.delete('/api/documents/:doctype/:id', function(req, res){
+
+    if (req.doc) {
+      req.doc.remove(function (err, doc){
         if (!err)
-          res.send(202);
-        res.send(500);
+          return res.send(203);
+        return res.send(500);
       });
     }
 
-  });
-
-  app.delete('/api/documents/:doctype/:id', function(req, res){
-    var doctype = req.params.doctype
-    , id = req.params.id
-    , Model = paramToModel[doctype]; 
-
-  if (Model) {
-    Model.remove(id, function(err, doc){
-      if (!err)
-        res.send(203);
-      res.send(500);
-    });
-  }
-  
   });
 
 }

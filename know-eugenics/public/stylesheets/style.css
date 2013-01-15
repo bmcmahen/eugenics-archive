@@ -5135,7 +5135,8 @@ body {
   background: #e3e3e1;
 }
 #myForm textarea,
-#myForm input[type='text'] {
+#myForm input[type='text'],
+#myForm select {
   display: block;
 }
 .breadcrumb li,

@@ -10,11 +10,14 @@ var confirmation = require('bmcmahen-confirmation');
 // are necessary to include, depending on the document type
 // and the prods that it's part of. 
 
+var documentTypes = ['Event', 'Idea', 'Institution', 'Person', 'Place', 'Publication'];
+
 var fieldTypes = {
 
     required : function() {
       return {
-        title : {widget: 'text', label: 'Title'},
+        title : { widget: 'text', label: 'Title' },
+        type : { widget: 'select', label: 'Document Type', options: documentTypes },
         shortDescription: {widget: 'text', label: 'Short Description'},
         fullDescription: {widget: 'textarea', label: 'Full Description'},
         timeline: {widget: 'checkbox', label: 'Timeline', value: ''},
@@ -25,6 +28,12 @@ var fieldTypes = {
     event : function() {
       return {
         date: { widget: 'text', label: 'Date', className:'date' }
+      }
+    },
+
+    person : function() {
+      return {
+        dateOfBirth: { widget: 'text', label: 'Date of Birth', className: 'dateOfBirth'}
       }
     },
 
@@ -75,7 +84,7 @@ var FormModel = Backbone.Model.extend({
 
   defaults: {
 
-    type: ['event'],
+    type: 'event',
     title: '',
     shortDescription: '',
     fullDescription: '',
@@ -98,6 +107,8 @@ var FormModel = Backbone.Model.extend({
     }, this);
 
     this.fields = fields; 
+
+    console.log(fields);
 
     this.addValuesToFields(); 
     return this; 
@@ -137,7 +148,8 @@ var FormView = Backbone.View.extend({
   events: {
     'submit' : 'saveForm',
     'click .prod' : 'alterProds',
-    'click .delete' : 'deleteDocument'
+    'click .delete' : 'deleteDocument',
+    'change select' : 'alterType'
   },
 
   initialize: function(opt) {
@@ -157,9 +169,15 @@ var FormView = Backbone.View.extend({
     html += '<input type="submit" class="btn btn-primary" value="Save">';
 
     this.$el.html(html);
-    this.$el.append('<a class="delete btn btn-danger">Delete</a>')
+
+    if (!this.dataModel.isNew())
+      this.$el.append('<a class="delete btn btn-danger">Delete</a>');
+
     return this; 
   },
+
+  // This really sucks. I should precompile the templates as functions and then reference
+  // them instead of having ugly strings. 
 
   fieldmap :  {
 
@@ -167,39 +185,45 @@ var FormView = Backbone.View.extend({
 
     'text' : _.template('<label for="<%= name %>"><%= attr.label %><input id="<%= name %>" type="text" name="<%= name %>" value="<%= attr.value %>"></label>'),
 
-    'checkbox' : _.template('<label class="prod <%= name %>"><%= attr.label %><input type="checkbox" name="<%= name %>" <%= attr.value %> ></label>')
+    'checkbox' : _.template('<label class="prod <%= name %>"><%= attr.label %><input type="checkbox" name="<%= name %>" <%= attr.value %> ></label>'),
+
+    'select' : _.template('<label class="<%= name %>"><%= attr.label %><select>' +
+                          '<% _.each(attr.options, function(val) { %>' +
+                          '<option value="<%= val %>" <% if (val.toLowerCase() == attr.value) { %> selected <% } %> > <%= val %></option> <% }); %>' +
+                          '</select></label>')
     
   },
 
   // this... is ugly. 
   parseForm : function() {
+
     var json = {}
       , prods = [];
 
     this.$el.find(':input[name]:enabled').each( function(){
+
       var self = $(this)
         , name = self.attr('name');
 
       // Treat checkboxes differently
       if (self.is(':checkbox')) {
-
         if (self.attr('checked')) {
           prods.push(name);
         }
-
       } else {
-
         var val = self.val();
         if (val) {
          json[name] = self.val();          
         }
-
       }
 
     });
 
+    json.type = this.$el.find('option:selected').val().toLowerCase(); 
+
     json.prods = prods; 
     return json; 
+
   },
 
   // Activated when a prod is either added or removed. Used
@@ -208,11 +232,9 @@ var FormView = Backbone.View.extend({
   alterProds : function(e) {
 
     var $checkbox = $(e.currentTarget).find('input')
-      , isChecked = $checkbox.attr('checked')
-      , prods = this.model.get('prods')
-      , parsed = this.parseForm(); 
+      , isChecked = $checkbox.attr('checked'); 
 
-    this.model.set(parsed);
+    this.model.set(this.parseForm());
 
     // I need to unset attributes that have been removed
     // through deselecting a prod. 
@@ -220,35 +242,64 @@ var FormView = Backbone.View.extend({
     if (!isChecked) {
 
       var name = $checkbox.attr('name')
-        , fields = fieldTypes[name]()
-        , unique = []; 
+        , fields = fieldTypes[name]();
 
-      // Create an array of fields removed
-    
-      for (key in fields){
-        if (!this.model.fields[key])
-          unique.push(key);
-      }
-      
-      // I'm unsetting the data model. I'm not sure if this
-      // is the best approach, as it could complicate validation
-      // and logic. 
-      
-      _.each(unique, function(key){
-        this.dataModel.unset(key, {silent: true});
-      }, this);
+      this.unsetDataModel(fields);
+
     }
+  },
+
+  // Activated when the Document Type field is changed. This adds
+  // or removes the necessary fields associated with the document
+  // type. 
+
+  alterType : function(e) {
+
+    var type = $(e.currentTarget).find(':selected').val();
+
+    this.model.set(this.parseForm());
+
+    this.unsetDataModel(fieldTypes[type]);
 
   },
 
+  // Shared function for unsetting certain fields on the date
+  // model. It determines which fields should be removed
+  // and removes the data associated with them.
+  
+  unsetDataModel: function(fields){
+
+    var unique = [];
+
+    // Create an array of fields removed
+    for (key in fields) {
+      if (!this.model.fields[key])
+        unique.push(key);
+    }
+
+    // Unset the data model. 
+    _.each(unique, function(key){
+      this.dataModel.unset(key, {silent: true});
+    }, this);
+
+  },
+
+  // When submitting the form, it's parsed, set,
+  // and saved. 
+
   saveForm : function(e){
+
     e.preventDefault();
     var parsed = this.parseForm();
     this.dataModel.set(parsed);
     this.dataModel.save(); 
+
   },
 
+  // Deletes an entry (when editing it!)
+  
   deleteDocument : function(e){
+
     e.preventDefault();
     var self = this; 
 
@@ -283,32 +334,30 @@ var DataModel = Backbone.Model.extend({
     var self = this; 
 
     this.urlRoot = options.urlRoot; 
-    this.fetch({ success: function(res){
+
+    // Build an empty or populated form
+    function buildForm(){
 
       self.formModel = new FormModel(self.toJSON());
-      self.formView = new FormView({
-        model: self.formModel, 
+      var fv = self.formView = new FormView({
+        model: self.formModel,
         dataModel: self
       });
-      self.formView.render(); 
-      $('#form-wrapper').append(self.formView.el);
-    }});
 
-    this.on('sync', function(model, resp, options){
-     console.log('synced', resp);
-    }, this);
+      fv.render(); 
+      $('#form-wrapper').append(fv.el);
+    };
 
-    this.on('error', function(){
-      console.log('error');
-    });
+    // Only fetch if we are editing a document. 
+    if (!this.isNew) {
+      this.fetch({ success: function(res) {
+        buildForm(); 
+      }});
+    } else {
+      buildForm(); 
+    }
 
   }
 
 });
-
-// Eventually this sort of thing will go in the Backbone router
-// which will be included on every page. This way, if I'm looking at
-// a list of documents in regular html, but want to edit one. Then I'll 
-// just point the URL to something that triggers a function in backbone
-// with a unique identifier. 
 
