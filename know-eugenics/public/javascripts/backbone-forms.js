@@ -32,8 +32,14 @@ var fieldTypes = {
         shortDescription: {widget: 'text', label: 'Short Description'},
         fullDescription: {widget: 'textarea', label: 'Full Description'},
         image: {widget: 'image', label: 'Image' },
-        timeline: {widget: 'checkbox', label: 'Timeline', value: ''},
-        heroes: {widget: 'checkbox', label: 'Heroes and Villains', value: ''}
+        prods: [{
+          timeline: {
+            widget: 'checkbox', label: 'Timeline', value: ''
+          },
+          heroes: {
+            widget: 'checkbox', label: 'Heroes and Villains', value: ''
+          }
+        }]
       }
     },
 
@@ -123,12 +129,15 @@ var FormModel = Backbone.Model.extend({
       , fields = fieldTypes.required()
       , toIterate = _.union(attr.type, attr.prods);
 
+    console.log(toIterate);
+
     _.each(toIterate, function(req){
       if (fieldTypes[req])
         _.extend(fields, fieldTypes[req]());
     }, this);
 
     this.fields = fields; 
+    console.log(this.fields);
     this.addValuesToFields(); 
 
     return this; 
@@ -144,10 +153,21 @@ var FormModel = Backbone.Model.extend({
 
    _.each(this.fields, function(obj, key){
 
-    if (!_.isUndefined(this.get(key))) {
+    // If we are dealing with prods, we need to
+    // iterate a layer deeper
+    
+    if (key === 'prods') {
+      _.each(obj[0], function(p, k){
+        if (_.contains(this.get('prods'), k)){
+          console.log(p);
+          p.value = 'checked';
+        };
+      }, this);
+
+    // Otherwise, populate it as usual. 
+    
+    } else if (!_.isUndefined(this.get(key))) {
       obj.value = this.get(key);
-    } else if (_.contains(this.get('prods'), key)){
-      obj.value = 'checked';
     }
 
    }, this);
@@ -182,10 +202,28 @@ var FormView = Backbone.View.extend({
   },
 
   render : function() {
-     var html = [];
+     var html = []
+      , self = this;
+
+      function buildCheckbox(key, arr) {
+        console.log('checkbox rendering', key, arr);
+        return self.fieldmap['checkbox']({name: key, attr: arr});
+      }
+
+      function buildWidget(key, obj) {
+        return self.fieldmap[obj.widget]({name: key, attr: obj});
+      }
 
     _.each(this.model.fields, function(obj, key){
-      var widget = this.fieldmap[obj.widget]({name: key, attr: obj});
+
+      // I should do a check to see if object is an array
+      // and then, if it is, assume that it's a checkbox. Pass the array
+      // to the checkbox as the attr, the name will be Prods. 
+      // Then, in the template, I will loop through the attr array. And build
+      // each checkbox from there.
+
+      var widget = _.isArray(obj) ? buildCheckbox(key, obj) : buildWidget(key, obj);
+
       if (typeof widget != 'undefined') {
         html[html.length] = widget; 
       }
@@ -252,6 +290,7 @@ var FormView = Backbone.View.extend({
     json.type = this.$el.find('option:selected').val().toLowerCase(); 
 
     json.prods = prods; 
+    console.log('PRODS', prods);
     return json; 
 
   },

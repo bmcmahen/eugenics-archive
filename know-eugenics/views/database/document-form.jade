@@ -6,8 +6,7 @@ block scripts
     <div class='form-element'>
       <label>
         <%= attr.label %>
-        <textarea id="<%= name %>" name="<%= name %>"><%=attr.value %>
-        </textarea>
+        <textarea id="<%= name %>" name="<%= name %>"><%=attr.value%></textarea>
       </label>
       <% if (attr.helpText) { %>
         <span class="help-block"> <%= attr.helpText %> </span>
@@ -27,13 +26,21 @@ block scripts
 
   script#checkbox(type='text/html').
     <div class='form-element'>
-      <label class="prod <%= name %>">
-        <input type="checkbox" name="<%= name %>" value="<%= attr.value %>">
-        <%= attr.label %>
-      </label>
-      <% if (attr.helpText) { %>
-        <span class="help-block"> <%= attr.helpText %> </span>
-      <% } %>
+      <h5> Select PRODs: </h5>
+      <div class='well'>
+        <% _.each(attr[0], function(val, key) { %>
+          <label class="prod <%= key %>">
+            <input type="checkbox" name="<%= key %>" <%= val.value %> >
+            <%= val.label %>
+          </label>
+          <% if (val.helpText) { %>
+            <span class="help-block"> <%= val.helpText %> </span>
+          <% } %>
+        <% }); %>
+      </div>
+      <span class='help-block'> Selecting a PROD from the list above will
+      include this document on that PROD. It will also insert fields that
+      are required for that PROD.</span>
     </div>
 
   script#select(type='text/html').

@@ -5290,3 +5290,7 @@ label {
 span.help-block {
   margin-top: 2px;
 }
+.well {
+  border: 1px solid #d6d1d1;
+  margin-bottom: 5px;
+}
