@@ -1,1 +1,74 @@
 extends layout
+
+block scripts
+
+  script#textarea(type='text/html').
+    <div class='form-element'>
+      <label>
+        <%= attr.label %>
+        <textarea id="<%= name %>" name="<%= name %>"><%=attr.value %>
+        </textarea>
+      </label>
+      <% if (attr.helpText) { %>
+        <span class="help-block"> <%= attr.helpText %> </span>
+      <% } %>
+    </div>
+
+  script#text(type='text/html').
+    <div class='form-element'>
+      <label>
+        <%= attr.label %>
+        <input id="<%= name %>" type="text" name="<%= name %>" value="<%= attr.value %>">
+      </label>
+      <% if (attr.helpText) { %>
+        <span class="help-block"> <%= attr.helpText %> </span>
+      <% } %>
+    </div>
+
+  script#checkbox(type='text/html').
+    <div class='form-element'>
+      <label class="prod <%= name %>">
+        <input type="checkbox" name="<%= name %>" value="<%= attr.value %>">
+        <%= attr.label %>
+      </label>
+      <% if (attr.helpText) { %>
+        <span class="help-block"> <%= attr.helpText %> </span>
+      <% } %>
+    </div>
+
+  script#select(type='text/html').
+    <div class='form-element'>
+      <label class="<%= name %>">
+        <%= attr.label %>
+        <select>
+        <% _.each(attr.options, function(val) { %>
+          <option value="<%= val %>"
+            <% if (val.toLowerCase() === attr.value) { %>
+              selected
+            <% } %> >
+            <%= val %>
+          </option>
+        <% }); %>
+        </select>
+      </label>
+      <% if (attr.helpText) { %>
+        <span class="help-block"> <%= attr.helpText %> </span>
+      <% } %>
+    </div>
+
+  script#image(type='text/html').
+    <div class='form-element'>
+      <% if (attr.value) { %>
+        <a id='change-image' href='#'> Change Image </a>
+      <% } else { %> 
+        <a id='add-image' href='#'> Add Image </a>
+      <% } %>
+      <% if (attr.helpText) { %>
+        <span class="help-block"> <%= attr.helpText %> </span>
+      <% } %>
+    </div>
+
+  script(src='/javascripts/backbone-forms.js')
+  script(src='/javascripts/backbone-router.js')
+
+

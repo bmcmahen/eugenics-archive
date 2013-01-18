@@ -67,8 +67,10 @@ app.locals.title = 'LAE Database';
 require('./routes/database')(app);
 
 // API 
-require('./api')(app);
-require('./params')(app);
+require('./routes/api')(app);
+
+// Params (In which I auto cache elements based on url paramaters)
+require('./routes/params')(app);
 
 
 http.createServer(app).listen(app.get('port'), function(){

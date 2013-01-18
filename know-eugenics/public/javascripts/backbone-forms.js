@@ -39,7 +39,7 @@ var fieldTypes = {
 
     event : function() {
       return {
-        date: { widget: 'text', label: 'Date (MM/DD/YYYY)', className:'date' }
+        date: { widget: 'text', label: 'Date', className:'date', helpText: 'Format: MM/DD/YYYY' }
       }
     },
 
@@ -206,7 +206,7 @@ var FormView = Backbone.View.extend({
   
   renderDestroyed : function(){
     var host = window.location.host;
-    window.location = 'http://' + host + '/documents/' + typeToParam[this.dataModel.get('type')];
+    window.location = 'http://' + host + '/database/' + typeToParam[this.dataModel.get('type')];
   },
 
   // This really sucks. I should precompile the templates as functions and then reference
@@ -214,25 +214,17 @@ var FormView = Backbone.View.extend({
 
   fieldmap :  {
 
-    'textarea' : _.template('<label for="<%= name %>"><%= attr.label %><textarea id="<%= name %>" name="<%= name %>"><%= attr.value %></textarea></label>'),
-
-    'text' : _.template('<label for="<%= name %>"><%= attr.label %><input id="<%= name %>" type="text" name="<%= name %>" value="<%= attr.value %>"></label>'),
-
-    'checkbox' : _.template('<label class="prod <%= name %>"><input type="checkbox" name="<%= name %>" <%= attr.value %> ><%= attr.label %></label>'),
-
-    'select' : _.template('<label class="<%= name %>"><%= attr.label %><select>' +
-                          '<% _.each(attr.options, function(val) { %>' +
-                          '<option value="<%= val %>" <% if (val.toLowerCase() == attr.value) { %> selected <% } %> > <%= val %></option> <% }); %>' +
-                          '</select></label>'),
-    'image': _.template('<% if (attr.value) { %> ' +
-                        '<a id="change-image" href="#">Change Image</a>' +
-                        '<% } else { %> <a id="add-image" href="#"> Add Image </a> <% } %>')
-    
+    'textarea' : _.template($('#textarea').html()),
+    'text' : _.template($('#text').html()),
+    'checkbox' : _.template($('#checkbox').html()),
+    'select' : _.template($('#select').html()),
+    'image': _.template($('#image').html())
   },
 
   // This is ugly. But basically, it looks in the DOM for each
   // input element, and creates an object with name/value
   // pairing. 
+  
   parseForm : function() {
 
     var json = {}
@@ -343,7 +335,7 @@ var FormView = Backbone.View.extend({
         , id = model.id;
 
       var host = window.location.host;
-      window.location = 'http://' + host + '/documents/' + typeString + '/' + id;
+      window.location = 'http://' + host + '/database/' + typeString + '/' + id;
    
     }}); 
 
