@@ -4,8 +4,6 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , stylus = require('stylus')
@@ -17,6 +15,10 @@ var express = require('express')
 
 require('./database');
 
+
+/**
+ * Main App Constructor
+ */
 
 var app = express();
 
@@ -49,19 +51,20 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-// Universal Attributes (aka Locals)
+
+/**
+ * Locals (Universal Variables)
+ */
 
 app.locals.title = 'LAE Database';
 
-// Router
-app.get('/', routes.index);
-app.get('/documents/new', routes.newDocument);
-app.get('/documents/:collection', routes.getCollection);
-app.get('/documents/:collection/edit/:id', routes.editDocument);
-app.get('/documents/:collection/:id', routes.getDocument);
 
-app.get('/db/prods/:prod', routes.getProdDocuments);
+/**
+ * Routes
+ */
 
+// Database Routes
+require('./routes/database')(app);
 
 // API 
 require('./api')(app);

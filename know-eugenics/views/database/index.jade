@@ -1,0 +1,40 @@
+extends layout
+
+block breadcrumbs
+  li.active Home
+
+block content
+  .row
+    .span12
+      h1= title
+      p.blurb Welcome to Living Archives on Eugenics Database
+
+  .row.dashboard
+    .span2
+      a(href='/database/events')
+        .wrapper Events
+    .span2
+      a(href='/database/ideas') 
+        .wrapper Ideas
+    .span2
+      a(href='/database/people') 
+        .wrapper People
+    .span2
+      a(href='/database/institutions')
+        .wrapper Institutions
+    .span2
+      a(href='/database/places')
+        .wrapper Places
+    .span2
+      a(href='/database/publications')
+        .wrapper Publications
+        
+
+  .row.dashboard
+    .span2
+      a(href='/database/prods/timeline')
+        .wrapper Timeline
+        
+    .span2
+      a(href='/database/prods/heroes-and-villains')
+        .wrapper Hereos and Villains

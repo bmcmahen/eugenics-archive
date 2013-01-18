@@ -1,3 +1,5 @@
+// This should be wrapped in a module
+
 var confirmation = require('bmcmahen-confirmation')
   , spinner = require('bmcmahen-canvas-loading-animation');
 
@@ -80,7 +82,7 @@ var fieldTypes = {
 // Form Model
 // 
 // Invoked using: 
-// var model = new FormModel({type: ['event'], prods: ['timeline'], title: 'my title'});
+// var model = new FormModel({type: 'event', prods: ['timeline'], title: 'my title'});
 // 
 // It will automatically generate any fields that this
 // document needs in order to be displayed/edited. 
@@ -199,8 +201,9 @@ var FormView = Backbone.View.extend({
     return this; 
   },
 
-  // If we destroy the database entry, replace the entire main
-  // body with an alert, indicating success. 
+  // If we destroy the database entry, redirect our page
+  // to the collection of documents that this belonged to. 
+  
   renderDestroyed : function(){
     var host = window.location.host;
     window.location = 'http://' + host + '/documents/' + typeToParam[this.dataModel.get('type')];
@@ -227,7 +230,9 @@ var FormView = Backbone.View.extend({
     
   },
 
-  // this... is ugly. 
+  // This is ugly. But basically, it looks in the DOM for each
+  // input element, and creates an object with name/value
+  // pairing. 
   parseForm : function() {
 
     var json = {}

@@ -1,0 +1,45 @@
+extends layout
+
+mixin parseObject(array)
+  dl
+    each val, i in array
+      case val.label
+        when 'created'
+          dt Date Created
+          dd #{val.value.toDateString()}
+        when 'title'
+          dt Title
+          dd #{val.value}
+        when 'shortDescription'
+          dt Short Description
+          dd #{val.value}
+        when 'fullDescription'
+          dt Full Description
+          dd #{val.value}
+        when 'date'
+          dt Date
+          dd #{val.value.toDateString()}
+        when 'prods'
+          if val.value.length
+            dt Prods
+            dd
+              each prod in val.value
+                span.prod #{prod}
+        default
+          if typeof val.value === 'string'  
+            dt= val.label
+            dd=val.value
+
+block breadcrumbs
+  li
+    a(href="/database") Home
+    span.divider /
+  li
+    a(href="/database/"+documentType)=documentType
+    span.divider /
+  li.active=doc.title
+
+block content
+  h3=doc.title
+  mixin parseObject(fields)
+  a(href='/documents/'+ documentType +'/edit/'+doc._id) Edit

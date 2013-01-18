@@ -1,5 +1,8 @@
 var _ = require('underscore');
 
+// This allows me to specify a sorting order to the 
+// dynamically generated forms. If the form contains
+// a title, it should be first. (etc.)
 var applySortOrder = function(object){
 
   // The desired order of the fields
@@ -26,7 +29,6 @@ var applySortOrder = function(object){
   });
 
 };
-
 
 
 module.exports = applySortOrder; 

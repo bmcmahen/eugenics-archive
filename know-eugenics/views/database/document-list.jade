@@ -1,0 +1,34 @@
+extends layout
+
+block breadcrumbs
+  li
+    a(href="/database") Home
+    span.divider /
+  li.active=documentType
+
+block content
+  .row
+    .span12
+      h2.pull-left=documentType
+      .sort-by.pull-right
+        span Sort By: 
+        a(href='/database/'+ documentType + '?sort=title') Title
+        a(href='/database/'+ documentType + '?sort=created') Date Created
+  table.table-striped.table
+    tbody
+    each doc, key in documents
+      tr
+        td.image
+          if doc.image
+            img(src=doc.image.url)
+          else
+            img(src='/images/thumb-placeholder.png')
+        td.title
+          a(href='/database/'+documentType+'/'+doc._id) #{doc.title}
+        td #{doc.shortDescription}
+        td
+          if doc.prods
+            each prod in doc.prods
+              span.prod= prod 
+        td(style='width: 70px; padding-top: 10px !important')
+          a.btn.btn-small(href='/database/'+ documentType +'/edit/'+doc._id) <i class='icon-edit'></i> Edit 

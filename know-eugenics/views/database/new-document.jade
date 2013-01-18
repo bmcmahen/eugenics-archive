@@ -1,0 +1,15 @@
+extends layout
+
+block breadcrumbs
+  li
+    a(href='/database') Home
+    span.divider /
+  li.active New Entry
+
+block content
+  h4 New Entry
+  #form-wrapper
+
+  script(src='/javascripts/backbone-forms.js')
+  script(src='/javascripts/backbone-router.js')
+

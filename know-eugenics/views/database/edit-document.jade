@@ -1,0 +1,22 @@
+extends layout
+
+
+block breadcrumbs
+  li
+    a(href="/database") Home
+    span.divider /
+  li
+    a(href="/database/"+documentType)=documentType
+    span.divider /
+  li
+    a(href='/database/'+documentType+'/'+doc._id)=doc.title
+    span.divider / 
+  li.active Edit
+
+
+block content
+  h3 Edit
+  #form-wrapper
+    
+  script(src='/javascripts/backbone-forms.js')
+  script(src='/javascripts/backbone-router.js')

@@ -1,8 +1,8 @@
 var Router = Backbone.Router.extend({
 
   routes: {
-    'documents/:doctype/edit/:id' : 'editDocument',
-    'documents/new' : 'newDocument'
+    'database/:doctype/edit/:id' : 'editDocument',
+    'database/new' : 'newDocument'
   },
 
   editDocument: function(doctype, id){

@@ -11,7 +11,6 @@ var init = function(app){
 
     doc.save(function (err){
       if (!err) {
-        console.log('document saved');
         res.send(200, doc.toJSON());
       } else {
         res.send(err);
