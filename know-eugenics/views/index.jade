@@ -6,27 +6,35 @@ block breadcrumbs
 block content
   .row
     .span12
-      h3= title
+      h1= title
       p.blurb Welcome to Living Archives on Eugenics Database
-  .row
-    .span3
-      .wrapper
-        .header-image
-        .header-text
-          a(href='/documents/events') Events
-    .span3
-      .wrapper
-        a(href='/documents/ideas') Ideas
-    .span3
-      .wrapper
-        a(href='/documents/people') People
-    .span3
-      .wrapper
-        a(href='/documents/institutions') Institutions
-  .row
-    .span3
-      .wrapper
-        a(href='/documents/places') Places
-    .span3
-      .wrapper
-        a(href='/documents/publications') Publications
+
+  .row.dashboard
+    .span2
+      a(href='/documents/events')
+        .wrapper Events
+    .span2
+      a(href='/documents/ideas') 
+        .wrapper Ideas
+    .span2
+      a(href='/documents/people') 
+        .wrapper People
+    .span2
+      a(href='/documents/institutions')
+        .wrapper Institutions
+    .span2
+      a(href='/documents/places')
+        .wrapper Places
+    .span2
+      a(href='/documents/publications')
+        .wrapper Publications
+        
+
+  .row.dashboard
+    .span2
+      a(href='/db/prods/timeline')
+        .wrapper Timeline
+        
+    .span2
+      a(href='/db/prods/heroes-and-villains')
+        .wrapper Hereos and Villains

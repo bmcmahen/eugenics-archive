@@ -60,13 +60,12 @@ app.get('/documents/:collection', routes.getCollection);
 app.get('/documents/:collection/edit/:id', routes.editDocument);
 app.get('/documents/:collection/:id', routes.getDocument);
 
+app.get('/db/prods/:prod', routes.getProdDocuments);
+
 
 // API 
 require('./api')(app);
 require('./params')(app);
-
-
-// Params
 
 
 http.createServer(app).listen(app.get('port'), function(){

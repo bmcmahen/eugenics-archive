@@ -8,6 +8,9 @@ html
     script(src='/javascripts/underscore-min.js')
     script(src='/javascripts/backbone-min.js')
     script(src='/javascripts/build/build.js')
+    script(src="//api.filepicker.io/v1/filepicker.js")
+    script
+      filepicker.setKey('AjpxCz4j4QaeYHScaoB1Iz');
   body
 
     block navigation
@@ -15,9 +18,10 @@ html
         .navbar-inner
           .container
             a.brand(href='/') LAE Database
-            a.btn.pull-right.btn-primary(href='/documents/new') New Document
+            #loading-wrapper
+            a.btn.pull-right.new-document.btn-primary(href='/documents/new') <i class='icon-pencil icon-white'></i> New Entry
 
-    .container
+    .container.main-content
 
       ul.breadcrumb
         block breadcrumbs

@@ -10,9 +10,12 @@ var init = function(app){
       , doc = new Documents(content);
 
     doc.save(function (err){
-      if (!err)
-        res.send(201);
-      res.send(err);
+      if (!err) {
+        console.log('document saved');
+        res.send(200, doc.toJSON());
+      } else {
+        res.send(err);
+      }
     });
 
   });
@@ -22,7 +25,7 @@ var init = function(app){
   app.get('/api/documents/:doctype/:id', function(req, res){
     
     if (req.doc) {
-      res.send(doc);
+      res.send(req.doc);
     }
 
   });
@@ -37,7 +40,7 @@ var init = function(app){
 
     req.doc.save(function(err){
       if (!err)
-        return res.send(202);
+        return res.send(req.doc);
       return res.send(500);
     });
 
@@ -51,9 +54,11 @@ var init = function(app){
 
     if (req.doc) {
       req.doc.remove(function (err, doc){
-        if (!err)
-          return res.send(203);
-        return res.send(500);
+        if (!err) {
+          res.send(204);
+        } else {
+          res.send(500);
+        }
       });
     }
 

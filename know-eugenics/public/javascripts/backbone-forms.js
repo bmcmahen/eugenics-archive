@@ -1,9 +1,5 @@
-// XXX To do: 
-// 
-// 
-//  Validation
-
-var confirmation = require('bmcmahen-confirmation');
+var confirmation = require('bmcmahen-confirmation')
+  , spinner = require('bmcmahen-canvas-loading-animation');
 
 // The field types that are required by each field type, and 
 // each prod. The app uses these to determine what fields
@@ -11,6 +7,19 @@ var confirmation = require('bmcmahen-confirmation');
 // and the prods that it's part of. 
 
 var documentTypes = ['Event', 'Idea', 'Institution', 'Person', 'Place', 'Publication'];
+
+// Maps type field to pluralized form
+
+var typeToParam = {
+  'event' : 'events',
+  'idea' : 'ideas',
+  'institution' : 'institutions',
+  'person' : 'people',
+  'place' : 'places',
+  'publication' : 'publications'
+}
+
+// Field Type Schemas
 
 var fieldTypes = {
 
@@ -20,6 +29,7 @@ var fieldTypes = {
         type : { widget: 'select', label: 'Document Type', options: documentTypes },
         shortDescription: {widget: 'text', label: 'Short Description'},
         fullDescription: {widget: 'textarea', label: 'Full Description'},
+        image: {widget: 'image', label: 'Image' },
         timeline: {widget: 'checkbox', label: 'Timeline', value: ''},
         heroes: {widget: 'checkbox', label: 'Heroes and Villains', value: ''}
       }
@@ -27,19 +37,29 @@ var fieldTypes = {
 
     event : function() {
       return {
-        date: { widget: 'text', label: 'Date', className:'date' }
+        date: { widget: 'text', label: 'Date (MM/DD/YYYY)', className:'date' }
       }
     },
 
     person : function() {
       return {
-        dateOfBirth: { widget: 'text', label: 'Date of Birth', className: 'dateOfBirth'}
+        dateOfBirth: { widget: 'text', label: 'Date of Birth', className: 'dateOfBirth'},
+        dateOfDeath: { widget: 'text', label: 'Date of Death', className: 'dateOfDeath'}
+      }
+    },
+
+    publication : function() {
+      return {
+        yearOfPublication: { widget: 'text', label : 'Year of Publication'},
+        monthOfPublication: { widget: 'text', label: 'Month of Publication'},
+        author: {widget: 'text', label: 'Author'},
+        publisher: {widget: 'text', label: 'Publisher'}
       }
     },
 
     timeline : function() {
       return {
-        date: { widget: 'text', label: 'Date', className:'date' },
+        date: { widget: 'text', label: 'Date (MM/DD/YYYY)', className:'date' },
         startDate : { widget: 'text', label: 'Start Date'},
         endDate : { widget: 'text', label: 'End Date' }
       }
@@ -56,8 +76,7 @@ var fieldTypes = {
 
 
 
-// 
-// 
+
 // Form Model
 // 
 // Invoked using: 
@@ -103,14 +122,13 @@ var FormModel = Backbone.Model.extend({
       , toIterate = _.union(attr.type, attr.prods);
 
     _.each(toIterate, function(req){
-      _.extend(fields, fieldTypes[req]());
+      if (fieldTypes[req])
+        _.extend(fields, fieldTypes[req]());
     }, this);
 
     this.fields = fields; 
-
-    console.log(fields);
-
     this.addValuesToFields(); 
+
     return this; 
 
   },
@@ -149,31 +167,43 @@ var FormView = Backbone.View.extend({
     'submit' : 'saveForm',
     'click .prod' : 'alterProds',
     'click .delete' : 'deleteDocument',
-    'change select' : 'alterType'
+    'change select' : 'alterType',
+    'click #add-image' : 'addImage',
+    'click #change-image' : 'changeImage'
   },
 
   initialize: function(opt) {
     this.dataModel = opt.dataModel; 
     this.listenTo(this.model, 'change', this.render);
+    this.listenTo(this.dataModel, 'destroy', this.renderDestroyed);
+  
   },
 
   render : function() {
-     var html = '';
+     var html = [];
 
     _.each(this.model.fields, function(obj, key){
       var widget = this.fieldmap[obj.widget]({name: key, attr: obj});
-      if (typeof widget != 'undefined')
-        html += widget;
+      if (typeof widget != 'undefined') {
+        html[html.length] = widget; 
+      }
     }, this);
 
-    html += '<input type="submit" class="btn btn-primary" value="Save">';
+    html.push('<input type="submit" id="save-form" class="btn btn-primary" value="Save">');
 
-    this.$el.html(html);
+    this.$el.html(html.join(''));
 
     if (!this.dataModel.isNew())
-      this.$el.append('<a class="delete btn btn-danger">Delete</a>');
+      this.$el.append('<a id="delete-form" class="delete btn btn-danger pull-right">Delete</a>');
 
     return this; 
+  },
+
+  // If we destroy the database entry, replace the entire main
+  // body with an alert, indicating success. 
+  renderDestroyed : function(){
+    var host = window.location.host;
+    window.location = 'http://' + host + '/documents/' + typeToParam[this.dataModel.get('type')];
   },
 
   // This really sucks. I should precompile the templates as functions and then reference
@@ -185,12 +215,15 @@ var FormView = Backbone.View.extend({
 
     'text' : _.template('<label for="<%= name %>"><%= attr.label %><input id="<%= name %>" type="text" name="<%= name %>" value="<%= attr.value %>"></label>'),
 
-    'checkbox' : _.template('<label class="prod <%= name %>"><%= attr.label %><input type="checkbox" name="<%= name %>" <%= attr.value %> ></label>'),
+    'checkbox' : _.template('<label class="prod <%= name %>"><input type="checkbox" name="<%= name %>" <%= attr.value %> ><%= attr.label %></label>'),
 
     'select' : _.template('<label class="<%= name %>"><%= attr.label %><select>' +
                           '<% _.each(attr.options, function(val) { %>' +
                           '<option value="<%= val %>" <% if (val.toLowerCase() == attr.value) { %> selected <% } %> > <%= val %></option> <% }); %>' +
-                          '</select></label>')
+                          '</select></label>'),
+    'image': _.template('<% if (attr.value) { %> ' +
+                        '<a id="change-image" href="#">Change Image</a>' +
+                        '<% } else { %> <a id="add-image" href="#"> Add Image </a> <% } %>')
     
   },
 
@@ -285,14 +318,29 @@ var FormView = Backbone.View.extend({
   },
 
   // When submitting the form, it's parsed, set,
-  // and saved. 
+  // and saved. If this is successful, we redirect
+  // to the created/edited entry
 
   saveForm : function(e){
 
+    var self = this; 
+
     e.preventDefault();
+
+    $('#save-form').addClass('disabled');
+
     var parsed = this.parseForm();
     this.dataModel.set(parsed);
-    this.dataModel.save(); 
+
+    this.dataModel.save({}, { success: function(model, xhr, options){
+      
+      var typeString = typeToParam[self.dataModel.get('type')]
+        , id = model.id;
+
+      var host = window.location.host;
+      window.location = 'http://' + host + '/documents/' + typeString + '/' + id;
+   
+    }}); 
 
   },
 
@@ -311,8 +359,23 @@ var FormView = Backbone.View.extend({
     }).effect('slide')
       .show()
       .okay(function(e){
-        self.dataModel.destroy(); 
+        // Set loading indicator
+        $('#delete-form').addClass('disabled');
+        self.dataModel.destroy({wait: true}); 
       });
+  },
+
+  addImage : function(e) {
+    e.preventDefault();
+    var self = this; 
+
+    filepicker.pickAndStore({}, {}, function(fpfile){
+      this.dataModel.set({image : fpfile});
+    });
+  },
+
+  changeImage: function(e) {
+    console.log('trying to change image');
   }
 
 });
@@ -335,6 +398,9 @@ var DataModel = Backbone.Model.extend({
 
     this.urlRoot = options.urlRoot; 
 
+    this.on('request', this.showSpinner);
+    this.on('sync', this.hideSpinner);
+
     // Build an empty or populated form
     function buildForm(){
 
@@ -349,7 +415,7 @@ var DataModel = Backbone.Model.extend({
     };
 
     // Only fetch if we are editing a document. 
-    if (!this.isNew) {
+    if (!this.isNew()) {
       this.fetch({ success: function(res) {
         buildForm(); 
       }});
@@ -357,6 +423,27 @@ var DataModel = Backbone.Model.extend({
       buildForm(); 
     }
 
+  },
+
+  // Creates a spinner to indicate loading
+  // Should be in separate view
+  showSpinner: function(){
+
+    var loading = this.loading = spinner({
+      color: '245, 245, 245',
+      width: 50,
+      height: 40,
+      number: 12,
+      radius: 10,
+      dotRadius: 2.1
+    });
+
+    $('#loading-wrapper').html(loading.canvas);
+
+  },
+
+  hideSpinner: function(){
+    $('#loading-wrapper').html('');
   }
 
 });

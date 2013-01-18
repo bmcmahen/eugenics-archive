@@ -1,20 +1,34 @@
 extends layout
 
 mixin parseObject(array)
-  div
+  dl
     each val, i in array
-      if typeof val.value === 'string'
-        p #{val.label} --- #{val.value}
-      if val.label === 'date'
-        p #{val.label} --- #{val.value.toDateString()}
-      if val.label === 'created'
-        p #{val.label} --- #{val.value.toDateString()}
-      if val.label === 'prods'
-        .prods
-          span
-            strong Prods: 
-          each prod in val.value
-            span #{prod}
+      case val.label
+        when 'created'
+          dt Date Created
+          dd #{val.value.toDateString()}
+        when 'title'
+          dt Title
+          dd #{val.value}
+        when 'shortDescription'
+          dt Short Description
+          dd #{val.value}
+        when 'fullDescription'
+          dt Full Description
+          dd #{val.value}
+        when 'date'
+          dt Date
+          dd #{val.value.toDateString()}
+        when 'prods'
+          if val.value.length
+            dt Prods
+            dd
+              each prod in val.value
+                span.prod #{prod}
+        default
+          if typeof val.value === 'string'  
+            dt= val.label
+            dd=val.value
 
 block breadcrumbs
   li
@@ -26,6 +40,6 @@ block breadcrumbs
   li.active=doc.title
 
 block content
-  h3=documentType
+  h3=doc.title
   mixin parseObject(fields)
   a(href='/documents/'+ documentType +'/edit/'+doc._id) Edit

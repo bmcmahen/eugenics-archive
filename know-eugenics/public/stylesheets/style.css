@@ -5134,18 +5134,33 @@ body {
   padding-top: 60px;
   background: #e3e3e1;
 }
+h1 {
+  text-align: center;
+}
+#myForm {
+  width: 450px;
+}
+#myForm textarea {
+  height: 200px;
+}
 #myForm textarea,
 #myForm input[type='text'],
 #myForm select {
   display: block;
+  width: 100%;
+  min-height: 35px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .breadcrumb li,
 h3 {
   text-transform: capitalize;
 }
-h3 {
-  font-size: 35px;
-  text-align: center;
+h2 {
+  font-size: 25px;
+  line-height: 25px;
+  text-transform: capitalize;
 }
 p.blurb {
   text-align: center;
@@ -5163,7 +5178,7 @@ p.blurb {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  height: 200px;
+  height: 140px;
   text-align: center;
   background-color: #f5f5f5;
   -webkit-transition: background-color 0.3s;
@@ -5174,6 +5189,7 @@ p.blurb {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   margin-bottom: 20px;
+  line-height: 140px;
 }
 .wrapper a {
   font-size: 14px;
@@ -5181,9 +5197,84 @@ p.blurb {
   font-weight: 800;
 }
 .wrapper .header-image {
-  height: 130px;
   width: 100%;
 }
 .wrapper:hover {
   background-color: #fff;
+}
+table td {
+  background-color: #ececec;
+  padding: 13px 8px !important;
+}
+table td.image {
+  padding: 0px !important;
+  vertical-align: middle;
+  padding-left: 4px !important;
+  width: 50px;
+}
+table td.title {
+  width: 180px;
+}
+span.prod {
+  text-transform: capitalize;
+  margin-right: 3px;
+}
+p.field-label {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+dt {
+  margin-top: 10px;
+  text-transform: capitalize;
+}
+span.prod {
+  text-transform: capitalize;
+}
+a.new-document {
+  background-color: #2c77ba;
+  color: #eee;
+  background-image: none;
+}
+a.new-document:hover {
+  background-color: #25649c;
+}
+a.new-document i {
+  margin-right: 5px;
+}
+h4 {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+.dashboard {
+  margin-bottom: 10px;
+}
+.dashboard a {
+  display: block;
+}
+.sort-by {
+  padding-top: 15px;
+}
+.sort-by a {
+  display: inline-block;
+  margin: 0 10px;
+}
+.prod.timeline {
+  margin-top: 15px;
+}
+.prod.heroes {
+  margin-bottom: 15px;
+}
+input[type='checkbox'] {
+  margin: 8px;
+  margin-top: 5px;
+}
+.navbar .navbar-inner {
+  position: relative;
+}
+#loading-wrapper {
+  position: absolute;
+  width: 50px;
+  left: 50%;
+  margin-left: -25px;
+  height: 50px;
 }

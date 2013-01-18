@@ -26,6 +26,7 @@ var init = function(app){
         next(new Error('failed to load document'));
       }
     });
+    
   });
 
   // If a collection is present in the route, then I map
@@ -34,6 +35,20 @@ var init = function(app){
   app.param('collection', function(req, res, next, col){
     req.type = paramToType[col];
     next(); 
+  });
+
+  app.param('prod', function(req, res, next, prodName){
+    Documents.find({prods: prodName})
+      .sort({ title: 'asc' })
+      .exec(function(err, prods){
+        if (err) {
+          next(err);
+        }
+          
+        req.prods = prods;
+        next();
+
+    });
   });
 
 }; 
