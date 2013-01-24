@@ -356,14 +356,13 @@ $.when( $.get('/api/documents/heroes') ).then( function(data){
   // it will basically run the grid-view. 
 
 
-
   var flipcard = new FlipCard.AppView(data, {
           wrapper: "#flipcard-wrapper",
           toolbar: "#flipcard-toolbar",
           detailView: "#flipcard-detail",
           searchField: "#flipcard-search",
           toolbarTemplate: _.template($('#toolbar-template').html()),
-          cardViewTemplate: _.template($('#card-view-template').html()),
+          cardViewTemplate: Handlebars.compile($('#card-view-template').html()),
           detailViewTemplate: _.template($('#detail-view-template').html()),
           boxHeight: 300,
           boxWidth: 200,

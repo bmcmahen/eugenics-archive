@@ -28,41 +28,51 @@ block content
 block templates
 
   script#detail-view-template(type='javascript/template').
-    <h2> <%= title %></h2>
+    <h2> {{title}}</h2>
 
   script#card-view-template(type='javascript/template').
      <div class="front" tabindex='0'>
-        <img src="<% if (typeof image != 'undefined') print('"'+image+'"') %>"/>
+        <img src="{{image.url}}"/>
         <div class="caption">
-          <p class="name"><strong><%= title %></strong></p>
-          <p class='blurb'><%= shortDescription %> </p>
+          <p class="name"><strong>{{ title }}</strong></p>
+          <p class='blurb'>{{ shortDescription }} </p>
         </div> 
       </div>
       <div class="back">
         <div class='quotes'>
         <em>
-          <p> <% if (typeof heroQuote != 'undefined') print('"'+heroQuote+'"') %> </p>
-          <p> <% if (typeof villainQuote != 'undefined') print('"'+ villainQuote+'"') %> </p>
-          <p> <% if (typeof ambiQuote != 'undefined') print('"' + ambiQuote+'"') %> </p>
+        {{#if heroQuote}}
+          <p>{{ heroQuote }}</p>
+        {{/if}}
+        {{#if villainQuote}}
+          <p>{{ villainQuote }}</p>
+        {{/if}}
+        {{#if ambiQuote }}
+          <p> {{ ambiQuote }}</p>
+        {{/if}}
           </em>
         </div>
-          <a href='#' id='<%= id %>' class='personInfo' name='<%= title %>' onclick='window.event.stopPropagation(); return hs.htmlExpand(this)'>More info</a>
+          <a href='#' id='{{_id}}' class='personInfo' name='{{title}}' onclick='window.event.stopPropagation(); return hs.htmlExpand(this)'>More info</a>
              <div class="highslide-maincontent">
-              <img src="<% if (typeof image != 'undefined') print('"'+image+'"') %>' alt='A picture of <%= title %>"/> 
+              <img src="{{image}}' alt='A picture of {{title}}"/> 
               <em>
-              <p> <% if (typeof heroQuote != 'undefined') print('"'+heroQuote+'"') %> </p>
-              <p> <% if (typeof villainQuote != 'undefined') print('"'+ villainQuote+'"') %> </p>
-              <p> <% if (typeof ambiQuote != 'undefined') print('"' + ambiQuote+'"') %> </p>
+                {{#if heroQuote}}
+                  <p>{{ heroQuote }}</p>
+                {{/if}}
+                {{#if villainQuote}}
+                  <p>{{ villainQuote }}</p>
+                {{/if}}
+                {{#if ambiQuote }}
+                  <p> {{ ambiQuote }}</p>
+                {{/if}}
               </em>
-              <p title="Press Escape to Return to Heroes and Villains." aria-labelledby='<%= id %>'>
-               <%= fullDescription %>
+              <p title="Press Escape to Return to Heroes and Villains." aria-labelledby='{{_id}}'>
+               {{fullDescription}}
               </p>
               <p> 
-              <% if (typeof moreInfo != 'undefined') { 
-                _.each(moreInfo, function(val, i){
-                    print('<a href="'+ val +'"> External Link ' + i +'</a>')
-                  });
-               } %> 
+              {{#each link}}
+                <a href='{{this}}'>
+              {{/each}}
              </p>
           </div>
       </div>
