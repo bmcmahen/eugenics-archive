@@ -3,6 +3,8 @@
  *
  * Displays the backend database, used
  * for data entry.
+ *
+ * Views are in /views/database/...
  * 
  */
 

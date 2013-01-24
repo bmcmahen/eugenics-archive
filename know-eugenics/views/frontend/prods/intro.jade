@@ -1,0 +1,61 @@
+!!!
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Eugenics in Western Canada
+    link(href='stylesheets/bootstrap.css', rel='stylesheet')
+    link(href='stylesheets/style.css', rel='stylesheet')
+    script(src='javascripts/jquery.min.js')
+    script(src='javascripts/bootstrap.js')
+body
+    header#header-fixed.navbar
+      .container
+        img.logo(src='/logo2.png')
+        ul.nav
+          li
+            a(href='#') Resources
+          li.vertical-divider |
+          li
+            a.active(href='#') Discovery Objects
+          li.vertical-divider |
+          li
+            a(href='#') Artistic Visions
+          li.vertical-divider |
+          li
+            a(href='http://whatsortsofpeople.wordpress.com/') What Sorts Blog
+          li.vertical-divider |
+          li
+            a(href='http://eugenicsarchive.ca/') About Us
+    #sub-header
+      .container
+        .row
+          .span2
+            a(href='/timeline')
+              .prod
+                img(src='temp-images/thumb1.png')
+                p.label What is Eugenics?
+          .span2
+            a(href='/heroes')
+              .prod.active
+                img(src='images/hero.png')
+                p.label Heroes & Villains
+          .span2
+            a(href='/timeline')
+              .prod
+                img(src='images/timeline.png')
+                p.label Timeline of Eugenics
+          .span2
+            a(href='#')
+              .prod
+                img(src='images/mindmap.png')
+                p.label Eugenics Mind Map
+          .span2
+            a(href='#')
+              .prod
+                img(src='images/institutions.png')
+                p.label Institutions
+          .span2
+            a(href='#')
+              .prod
+                img(src='images/mindmap.png')
+                p.label Eugenics Mind Map

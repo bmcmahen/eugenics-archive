@@ -1,0 +1,46 @@
+extends ../layout
+
+
+block nav-discover
+  a.active(href='/timeline', aria-selected='true', aria-owns='sub-header') Discovery Tools
+
+block subheader
+  #sub-header
+    .container
+      .row
+        .span2
+          a(href='/discover/whatis')
+            block subnav-whatis
+              .prod
+                img(src='img/frontend/whatis.png', role='presentation')
+                p.label What is Eugenics?
+         .span2
+          a(href='/discover/heroes')
+            block subnav-heroes
+              .prod
+                img(src='img/frontend/hero.png', role='presentation')
+                p.label Heroes & Villains
+        .span2
+          a(href='/discover/timeline')
+            block subnav-timeline
+              .prod
+                img(src='img/frontend/timeline.png', role='presentation')
+                p.label Timeline of Eugenics
+        .span2
+          a(href='#')
+            block subnav-mindmap
+              .prod
+                img(src='img/frontend/mindmap.png', role='presentation')
+                p.label Eugenics Mind Map
+        .span2
+          a(href='/discover/institutions')
+            block subnav-institutions
+              .prod
+                img(src='img/frontend/institutions.png', role='presentation')
+                p.label Institutions
+        .span2
+          a(href='/discover/exploring')
+            block subnav-exploring
+              .prod
+                img(src='img/frontend/archive.png', role='presentation')
+                p.label Exploring Archives

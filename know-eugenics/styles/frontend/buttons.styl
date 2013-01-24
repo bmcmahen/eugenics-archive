@@ -1,0 +1,73 @@
+button.btn
+  font-size 11px
+  padding 3px 10px 3px 10px
+  margin 5px
+  margin-left 0px
+  height 24px
+  float left
+  text-shadow 1px 1px 0px rgba(255,255,255,0.2)
+  cursor pointer
+  border-radius 3px
+  border 1px solid #BBB
+  background-size 1px 40px
+  background linear-gradient(#f3f3f3, #cbcbcb)
+  color #444
+  box-shadow 0 1px 0 rgba(255, 255, 255, 0.5)
+  transition background-position 0.5s
+  &:hover
+    background-position 15px
+
+div.btn-group
+  padding 0px
+  display inline-block
+  margin 5px
+  float right
+
+
+div.btn-group button.btn
+  border-radius 0px
+  margin 0px
+  margin-left -1px
+
+div.btn-group button.active
+  box-shadow inset 0px 5px 10px rgba(0,0,0,0.10)
+  background rgba(0,0,0,0.15)
+  color rgba(0,0,0,0.60)
+
+div.btn-group:after
+  clear both
+
+div.btn-group button.btn:first-child
+  border-top-left-radius 3px
+  border-bottom-left-radius 3px
+  margin-left 0px
+
+fieldset > .btn:last-child
+.btn-group > .btn:last-child
+.btn-group > .dropdown-toggle
+  border-top-right-radius 3px !important
+  border-bottom-right-radius 3px !important
+
+input
+  width 150px
+  padding 4px
+  border 0px
+  border-radius 3px
+  margin 6px
+
+div.btn-group input
+  margin 0px
+
+span.button-label
+  float right
+  padding 9px 2px 9px 2px
+  display inline-block
+
+fieldset
+  margin 0px
+  padding 0px
+  border 0px
+
+legend
+  display inline
+  max-width 15px

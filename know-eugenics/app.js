@@ -69,6 +69,9 @@ app.locals.title = 'LAE Database';
 // Database Routes
 require('./routes/database')(app);
 
+// Front End Routes
+require('./routes/frontend')(app);
+
 // API 
 require('./routes/api')(app);
 

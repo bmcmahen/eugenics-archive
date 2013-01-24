@@ -1,0 +1,84 @@
+/**
+ * Navigation Styles
+ */
+
+@import 'variables'
+
+// Header
+
+#header
+
+  & p
+    margin 4px
+
+  & a.logo
+    background-image url('/laelogo2.png')
+    height 41px
+    width 270px
+    float right
+    margin 0px
+
+  & ul.nav
+
+  //   & li
+  //     line-height 20px
+
+  //   & a
+  //     float none
+  //     padding 13px 20px 13px
+  //     background transparent
+  //     font 500 12px 'HelveticaNeue', Helvetica, Arial, Sans-serif
+  //     display block
+  //     text-shadow 0px 1px 1px rgba(255,255,255, 0.50)
+  //     transition background 0.3s
+
+      &.active
+        background-image linear-gradient(top,  #A9A89D, #B9B9B1)
+        // box-shadow inset 1px 1px 1px rgba(0,0,0,.30), 1px 1px 1px rgba(255,255,255,0.3)
+        pointer-events none
+        cursor default
+
+        & li:hover
+          background #eee
+          text-decoration none
+
+img.logo
+  display block
+  margin-top 6px
+  float right
+  height 25px
+
+// Sub Header
+
+#sub-header
+  // box-shadow inset 0 -1px 1px rgba(255, 255, 255, 0.4),0 1px 1px rgba(0, 0, 0, 0.4)
+  background-image url('/background1.png')
+  border-bottom 1px solid #bbb
+
+  & div.prod
+    transform scale(0.85)
+    transform-style preserve-3d
+    transition -webkit-transform 0.17s linear
+    box-shadow 2px 2px 25px rgba(0,0,0,.25)
+    backface-visibility hidden
+    margin-top 18px
+    margin-bottom 18px
+    padding 7px
+    background rgba(255, 255, 255, 0.8)
+    border-radius $borderRadius
+
+    &:hover
+      transform scale(1)
+
+    &.active
+      transform scale(1)
+
+    & img
+      max-width 100%
+      border-radius $borderRadius
+
+    & p.label
+      margin 2px
+      padding-top 4px
+      font 700 11px "HelveticaNeue-Light" 
+      color #666

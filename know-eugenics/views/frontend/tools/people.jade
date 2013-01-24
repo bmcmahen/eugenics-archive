@@ -1,0 +1,41 @@
+html
+  head
+    link(href='/stylesheets/style.css', rel='stylesheet')
+    link(href='/stylesheets/hero.css', rel='stylesheet')
+
+    script(src='javascripts/jquery.min.js') 
+    script(src='/javascripts/bootstrap.js')  
+    script(src='javascripts/underscore.js')
+    script(src='javascripts/backbone.js')
+    script(src='javascripts/heroes/flipcard.js')
+    script(src='javascripts/heroes/app.js')
+
+  body
+    #flipcard-toolbar
+    #flipcard-wrapper
+    #flipcard-detail
+
+  script#card-view-template(type='javascript/template').
+        <img src="<%= imageURL %>"/>
+        <div class="caption">
+          <p class="name"><strong><%= title %></strong></p>
+        </div> 
+
+  script#toolbar-template(type='javascript/template').
+    <input type='text' id='flipcard-search' placeholder='Search Names'>
+     <div class="btn-group" data-toggle="buttons-radio">
+      <button class="btn browser-sort" data-sort-field='title'> Name </button>
+      <button class="btn browser-sort" data-sort-field='date'> Date </button>
+    </div>
+    <div class="btn-group" data-toggle="buttons-radio">
+      <button class="btn browser-filter active" data-filter-category='all'> All </button>
+      <button class="btn browser-filter" data-filter-category='politician'> Politicans </button>
+      <button class="btn browser-filter" data-filter-category='scientist'> Scientists </button>
+    </div>
+
+  script#detail-view-template(type='javascript/template').
+    <h2> <%= title %></h2>
+    <p> <%= date %> </p>
+    <p> <%= description %> </p>
+    <p> <%= heroQuote %> </p>
+    <p> <%= villainQuote %> </p> 

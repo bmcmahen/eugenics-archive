@@ -1,0 +1,64 @@
+extends av_layout
+
+block append styles
+  link(href='stylesheets/flipcard.css', rel='stylesheet')
+  link(href='stylesheets/timeline/highslide.css', rel='stylesheet')
+
+block append scripts
+  script(src='javascripts/timeline/highslide-full.min.js')
+  script(src='javascripts/underscore.js')
+  script(src='javascripts/backbone.js')
+  script(src='javascripts/heroes/flipcard.js')
+  script(src='javascripts/artistic/app.js')
+
+block content
+  .row#app
+    .span3
+      h2 Artistic Visions
+    .span9#flipcard-toolbar
+  .row
+    .content.span12
+      .row
+        .span12#flipcard-wrapper
+
+block templates
+
+  script#detail-view-template(type='javascript/template').
+    <h2> <%= title %></h2>
+    <p> <%= artist %> </p>
+    <p> <%= description %> </p>
+
+  script#card-view-template(type='javascript/template').
+    <a href='#<%= id %>' onclick="return hs.htmlExpand(this)">
+        <img src="<%= imageThumbURL %>"/>
+        <div class="caption">
+          <p class="name"><strong><%= title %></strong></p>
+        </div> 
+      </a>
+       <div class="highslide-maincontent">
+          <img src='<%= imageURL %>'/>
+          <p title="Press Escape to Return to Gallery.">
+          <%= artist %>
+          <%= description %>
+          </p>
+      </div>
+
+  script#toolbar-template(type='javascript/template').
+    <input type='text' id='flipcard-search' placeholder='Search Names' title='Search for people by name.'>
+     <div class="btn-group" data-toggle="buttons-radio">
+         <fieldset title='Sort persons'>
+      <button class="btn browser-sort" data-sort-field='title'> Name </button>
+      <button class="btn browser-sort" data-sort-field='date' title='Sort people by date'> Dates </button>
+          </fieldset>     
+    </div>
+
+        <span class='button-label' id='filterBy' role='presentation'>Sort: </span>
+
+    <div class="btn-group" data-toggle="buttons-radio">
+      <fieldset title='Filter persons'>
+      <button class="btn browser-filter active" data-filter-category='all'> All </button>
+      <button class="btn browser-filter" data-filter-category='politician' > Politicans </button>
+      <button class="btn browser-filter" data-filter-category='scientist'> Scientists </button>
+      </fieldset>
+    </div>
+        <span class='button-label' id='filterBy' role='presentation'>Filter: </span>

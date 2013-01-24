@@ -1,0 +1,117 @@
+@import 'frontend/variables'
+@import 'frontend/buttons'
+@import 'frontend/navigation'
+@import 'bootstrap/reset'
+@import 'bootstrap/variables'
+@import 'bootstrap/mixins'
+@import 'bootstrap/scaffolding'
+@import 'bootstrap/grid'
+@import 'bootstrap/layouts'
+@import 'bootstrap/navs'
+@import 'bootstrap/navbar'
+
+
+/**
+ * Primary styles
+ */
+
+body
+  font: $baseFontSize $headingFont
+  background-image url('/extra_backgrounds/body_back_cropped.jpg')
+  margin 0
+  padding-top 40px
+  padding-bottom 75px
+  height 100%
+
+a
+  color: $blue
+  cursor pointer
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+  &#fullscreenmode
+    display inline-block
+    padding 5px 10px 5px 10px
+
+p
+  color: $blackLighter
+
+h1
+  color #020D81
+  display block
+  margin-top 30px
+  font: 60px $headingFont
+  font-weight 300
+
+h2
+  color: $blue
+  display inline-block
+  font: 300 25px $headingFont
+  margin 0px
+
+h3
+  color: $blue
+  font: $baseFontSize $headingFont
+  font-weight: 600
+
+ul
+  list-style-type none
+  padding-left 0px
+
+
+#main
+  border-top 1px solid white
+
+#app
+  padding-top 20px
+
+  &.fullscreen
+    position fixed
+    margin-top 0px
+    top 0
+    height 100%
+    overflow auto
+    right 0px
+    bottom 0
+    left 40px
+    z-index 1200
+
+.content
+  position relative
+
+#modalbackdrop
+  display none
+
+  &.open
+    display block
+    position fixed
+    top 0
+    right 0
+    bottom 0
+    left 0
+    z-index 1040
+    background-color #DBDCDD
+    opacity 0.9
+
+/**
+ * Utility Classes
+ */
+
+.center
+  margin-left auto
+  margin-right auto
+
+.pull-left
+  text-align left
+
+.pull-right
+  text-align right
+
+.highlight
+  background #007D7F
+  color white
+  border-radius 3px
+  padding 2px 4px
+
+input.short
+  width 100px
