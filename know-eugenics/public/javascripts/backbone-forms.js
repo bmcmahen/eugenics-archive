@@ -32,6 +32,7 @@ var fieldTypes = {
         shortDescription: {widget: 'text', label: 'Short Description'},
         fullDescription: {widget: 'textarea', label: 'Full Description'},
         image: {widget: 'image', label: 'Image' },
+        link: {widget: 'text', label: 'URL'},
         prods: [{
           timeline: {
             widget: 'checkbox', label: 'Timeline', value: ''
@@ -76,7 +77,9 @@ var fieldTypes = {
     heroes : function() {
       return {
         heroQuote: { widget: 'text', label: 'Hero Quote', className: 'hero'},
-        villainQuote: { widget: 'text', label: 'Villain Quote', className: 'villain'}
+        villainQuote: { widget: 'text', label: 'Villain Quote', className: 'villain'},
+        ambiQuote: {widget: 'text', label: 'Ambiguous Quote', className: 'ambiquote'},
+        date : { widget: 'text', label: 'Date (MM/DD/YYYY)', className: 'date'}
       }
     }
 

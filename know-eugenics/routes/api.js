@@ -1,4 +1,4 @@
-var Documents = require('./database').Document
+var Documents = require('../database').Document
   , _ = require('underscore'); 
 
 var init = function(app){
@@ -61,6 +61,15 @@ var init = function(app){
       });
     }
 
+  });
+
+  // Heroes and Villains data
+  app.get('/api/documents/heroes', function(req, res){
+    // query database for heroes documents, and send it back
+    Documents.find({prods: 'heroes'}, function(err, docs){
+      if (!err)
+        res.send(docs);
+    });
   });
 
 }

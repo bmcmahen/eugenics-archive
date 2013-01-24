@@ -1,0 +1,102 @@
+extends ../layout
+
+block append styles
+  link(href='/prod_styles/heroes/heroes.css', rel='stylesheet')
+  link(href='/prod_styles/timeline/highslide.css', rel='stylesheet')
+
+block append scripts
+  script(src='/javascripts/frontend/heroes/flipcard.js')
+  script(src='/javascripts/frontend/timeline/highslide-full.min.js')
+  script(src='/javascripts/frontend/heroes/app.js')
+
+block subnav-heroes
+  .prod.active
+    img(src='/img/frontend/hero.png', role='presentation')
+    p.label Heroes & Villains
+                
+block content
+  #app
+    h2 Heroes and Villains
+    a#fullscreenmode(href='#') (Full Screen)
+    #flipcard-toolbar
+    .content
+      #flipcard-wrapper
+  
+  #modalbackdrop
+
+
+block templates
+
+  script#detail-view-template(type='javascript/template').
+    <h2> <%= title %></h2>
+
+  script#card-view-template(type='javascript/template').
+     <div class="front" tabindex='0'>
+        <img src="<% if (typeof image != 'undefined') print('"'+image+'"') %>"/>
+        <div class="caption">
+          <p class="name"><strong><%= title %></strong></p>
+          <p class='blurb'><%= shortDescription %> </p>
+        </div> 
+      </div>
+      <div class="back">
+        <div class='quotes'>
+        <em>
+          <p> <% if (typeof heroQuote != 'undefined') print('"'+heroQuote+'"') %> </p>
+          <p> <% if (typeof villainQuote != 'undefined') print('"'+ villainQuote+'"') %> </p>
+          <p> <% if (typeof ambiQuote != 'undefined') print('"' + ambiQuote+'"') %> </p>
+          </em>
+        </div>
+          <a href='#' id='<%= id %>' class='personInfo' name='<%= title %>' onclick='window.event.stopPropagation(); return hs.htmlExpand(this)'>More info</a>
+             <div class="highslide-maincontent">
+              <img src="<% if (typeof image != 'undefined') print('"'+image+'"') %>' alt='A picture of <%= title %>"/> 
+              <em>
+              <p> <% if (typeof heroQuote != 'undefined') print('"'+heroQuote+'"') %> </p>
+              <p> <% if (typeof villainQuote != 'undefined') print('"'+ villainQuote+'"') %> </p>
+              <p> <% if (typeof ambiQuote != 'undefined') print('"' + ambiQuote+'"') %> </p>
+              </em>
+              <p title="Press Escape to Return to Heroes and Villains." aria-labelledby='<%= id %>'>
+               <%= fullDescription %>
+              </p>
+              <p> 
+              <% if (typeof moreInfo != 'undefined') { 
+                _.each(moreInfo, function(val, i){
+                    print('<a href="'+ val +'"> External Link ' + i +'</a>')
+                  });
+               } %> 
+             </p>
+          </div>
+      </div>
+
+  script#toolbar-template(type='javascript/template').
+    <input type='text' id='flipcard-search' placeholder='Search Names' title='Search for people by name.'>
+     <div class="btn-group" data-toggle="buttons-radio">
+         <fieldset title='Sort persons'>
+      <button class="btn browser-sort" data-sort-field='name'> Name </button>
+      <button class="btn browser-sort" data-sort-field='dates' title='Sort people by date'> Dates </button>
+          </fieldset>     
+    </div>
+
+        <span class='button-label' id='filterBy' role='presentation'>Sort By: </span>
+
+    <div class="btn-group" data-toggle="buttons-radio">
+      <fieldset title='Filter persons'>
+      <select class='browser-filter'>
+        <option value='all'> All Categories </option>
+        <option value='Male'> Males </option>
+        <option value='Female'> Females </option>
+        <option value='Politician'> Politicians </option>
+        <option value='Scientist'> Scientists </option>
+        <option value='Doctor'> Doctors </option>
+        <option value='Feminist'> Feminists </option>
+        <option value='Citizen'> Citizens </option>
+        <option value='Lawyer'> Lawyers </option>
+        <option value='Minister'> Ministers </option>
+        <option value='Academic'> Academics </option>
+        <option value='Businessman'> Businessmen </option>
+
+      </select>
+      </fieldset>
+    </div>
+        <span class='button-label' id='filterBy' role='presentation'>Filter: </span>
+
+

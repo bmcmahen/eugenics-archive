@@ -1,0 +1,322 @@
+/**
+* @file: highslide.css 
+* @version: 4.1.13
+*/
+.highslide-container div {
+	font: 8pt "Lucida Grande", Lucida, Verdana, sans-serif;
+	text-align: left;
+	background-color: white;
+	color: #777;
+}
+
+.highslide-container p {
+} 
+
+.highslide-container .highslide-caption {
+	
+}
+.highslide-container table {
+	background: none;
+}
+.highslide {
+	outline: none; 
+	text-decoration: none;
+}
+.highslide img {
+	border: none;
+}
+.highslide:hover img {
+	border-color: gray;
+}
+.highslide-active-anchor img {
+	visibility: hidden;
+}
+.highslide-gallery .highslide-active-anchor img {
+	border-color: black;
+	visibility: visible;
+	cursor: default;
+}
+.highslide-image {
+	border-width: 2px;
+	border-style: solid;
+	border-color: white;
+}
+.highslide-wrapper, .highslide-outline {
+	background: white;
+}
+.glossy-dark {
+	background: #111;
+}
+
+.highslide-image-blur {
+}
+.highslide-number {
+	font-weight: bold;
+	color: gray;
+	font-size: .9em;
+}
+.highslide-caption {
+	display: none;
+	font-size: 1em;
+	padding: 5px;
+	font-size: 10pt;
+	/*background: white;*/
+}
+.highslide-heading {
+	display: none;
+	font-weight: bold;
+	margin: 0.4em;
+}
+.highslide-dimming {
+	/*position: absolute;*/
+	background: black;
+}
+a.highslide-full-expand {
+}
+.highslide-loading {
+	display: block;
+	color: black;
+	font-size: 9px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-decoration: none;
+	padding: 3px;
+	border: 1px solid white;
+	background-color: white;
+	padding-left: 22px;
+	background-image: url(/highslide_graphics/loader.white.gif);
+	background-repeat: no-repeat;
+	background-position: 3px 1px;
+}
+a.highslide-credits,
+a.highslide-credits i {
+	padding: 2px;
+	color: silver;
+	text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+	color: white;
+	background-color: gray;
+}
+.highslide-move, .highslide-move * {
+	cursor: move;
+}
+
+.highslide-viewport {
+	display: none;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background: none;
+	left: 0;
+	top: 0;
+}
+.highslide-overlay {
+	display: none;
+}
+.hidden-container {
+	display: none;
+}
+/* Example of a semitransparent, offset closebutton */
+.closebutton {
+	position: relative;
+	top: -15px;
+	left: 15px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	background: url(graphics/close.png);
+	/* NOTE! For IE6, you also need to update the highslide-ie6.css file. */
+}
+
+
+/*****************************************************************************/
+/* Styles for the HTML popups											     */
+/* Remove these if you are not using Highslide HTML						     */
+/*****************************************************************************/
+.highslide-maincontent {
+	display: none;
+	padding-top: 0;
+	font: bold 12pt "Lucida Grande", Lucida, Verdana, sans-serif;
+	text-align: left;
+	color: #eee;
+}
+
+.highslide-maincontent p {
+	color: #333;
+	font: 400 10pt HelveticaNeue, Helvetica, Arial, Sans-serif;
+}
+
+.highslide-maincontent img {
+	float: left;
+	padding: 0px 20px 20px 5px;
+	border-radius: 4px;
+}
+
+.highslide-html {
+	background-color: white;
+}
+.mobile .highslide-html {
+	border: 1px solid silver;
+}
+.highslide-html-content {
+	display: none;
+	width: 400px;
+	padding: 0 5px 5px 5px;
+}
+.highslide-header {
+	padding-bottom: 5px;
+}
+.highslide-header ul {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+.highslide-header ul li {
+	display: inline;
+	padding-left: 1em;
+}
+.highslide-header ul li.highslide-previous, .highslide-header ul li.highslide-next {
+	display: none;
+}
+.highslide-header a {
+	font-weight: bold;
+	color: gray;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+.highslide-header a:hover {
+	color: black;
+}
+.highslide-header .highslide-move a {
+	cursor: move;
+}
+.highslide-footer {
+	height: 16px;
+}
+.highslide-footer .highslide-resize {
+	display: block;
+	float: right;
+	margin-top: 5px;
+	height: 11px;
+	width: 11px;
+	background: url(graphics/resize.gif) no-repeat;
+}
+.highslide-footer .highslide-resize span {
+	display: none;
+}
+.highslide-body {
+}
+.highslide-resize {
+	cursor: nw-resize;
+}
+
+/*****************************************************************************/
+/* Styles for the Individual wrapper class names.							 */
+/* See www.highslide.com/ref/hs.wrapperClassName							 */
+/* You can safely remove the class name themes you don't use				 */
+/*****************************************************************************/
+
+/* hs.wrapperClassName = 'draggable-header' */
+.draggable-header .highslide-header {
+	height: 32px;
+}
+.draggable-header .highslide-heading {
+	position: absolute;
+	margin: 2px 0.4em;
+	font-weight: bold;
+	z-index: 5;
+	font-size: 10pt;
+	margin-right:  20px;
+	color: #3F3F3F;
+	height:  30px;
+	overflow: hidden;
+	text-overflow:  ellipsis;
+}
+
+.draggable-header .highslide-header .highslide-move {
+	cursor: move;
+	display: block;
+	height: 30px;
+	position: absolute;
+	right: 24px;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+	overflow: hidden;
+	white-space: nowrap;
+}
+.draggable-header .highslide-header .highslide-move * {
+	display: none;
+}
+.draggable-header .highslide-header .highslide-close {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	z-index: 5;
+	padding: 0;
+}
+.draggable-header .highslide-header .highslide-close a {
+	display: block;
+	height: 19px;
+	width: 20px;
+	
+	background-image: url(graphics/CloseCombined.png);
+	z-index: 10;
+}
+.draggable-header .highslide-header .highslide-close a:hover {
+background-position: 0 19px;
+}
+.draggable-header .highslide-header .highslide-close span {
+	display: none;
+}
+.draggable-header .highslide-maincontent {
+}
+
+/* hs.wrapperClassName = 'titlebar' */
+.titlebar .highslide-header {
+	height: 18px;
+	border-bottom: 1px solid #dddddd;
+}
+.titlebar .highslide-heading {
+	position: absolute;
+	width: 90%;
+	margin: 1px 0 1px 5px;
+	color: #666666;
+}
+
+.titlebar .highslide-header .highslide-move {
+	cursor: move;
+	display: block;
+	height: 16px;
+	position: absolute;
+	right: 24px;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+	
+}
+.titlebar .highslide-header .highslide-move * {
+	display: none;
+}
+.titlebar .highslide-header li {
+	position: relative;
+	top: 3px;
+	z-index: 2;
+	padding: 0 0 0 1em;
+	
+}
+.titlebar .highslide-maincontent {
+	padding-top: 1em;
+}
+
+/* hs.wrapperClassName = 'no-footer' */
+.no-footer .highslide-footer {
+	display: none;
+}
+
+
+

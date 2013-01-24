@@ -1,0 +1,480 @@
+/* @override 
+	http://bmcmahen.com/timeline/css/timeline.css */
+* {
+	outline: none;
+}
+
+
+.item {
+	display: none; 
+}
+
+.highslide-maincontent a {
+	color: #b9d5e0;
+}
+
+.highslide-caption p,
+.highslide-maincontent p {
+  color: #333;
+}
+
+.highslide-maincontent a:hover {
+	text-decoration: underline;
+}
+
+
+fieldset {
+	border:  0px;
+	margin:  0px;
+	padding: 0px 0px 2px;
+}
+
+fieldset button.btn {
+  float: none;
+}
+
+fieldset input.short {
+  margin: 0px 5px 0px 5px;
+}
+
+legend {
+	background-color: blue;
+}
+
+div.header-info {
+	width:  400px;
+	background-color: #ffffff;
+	border-radius: 3px;
+	padding:  5px;
+}
+
+#start-info {
+width:  50%;
+display:  inline;
+float:  left;
+margin-left: 5px;
+}
+
+#mytimelinewrapper {
+	position: relative;
+    margin: 0px;
+}
+
+a.leftarrow{
+	display:  block;
+	height:  45px;
+	width:  40px;
+	position:  absolute;
+	top:  50%;
+	left:  -20px;
+	background: url(graphics/move_left.png) no-repeat;
+}
+
+a.leftarrow:hover {
+	background-position: -23px 0;
+}
+
+a.rightarrow {
+	display:  block;
+	position:  absolute;
+	top:  50%;
+	right:  -20px;
+	height:  45px;
+	width:  23px;
+	background: url(graphics/move_right.png) no-repeat;
+	background-position: -23px 0;
+}
+
+a.rightarrow:hover {
+	background-position:  0px 0;
+}
+/* @group Timeline Frame */
+
+div.timeline-frame {
+
+  border:  2px 0px 2px 2px #BEBEBE;
+  overflow: hidden;
+  background-color: #ffffff; 
+  background-repeat: repeat; 
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin:  0px auto;
+} 
+                                             
+div.timeline-axis {
+  border-color: #dcdddd;
+  border-width: 1px;
+  border-top-style: solid;
+}  
+div.timeline-axis-grid {
+  border-left-style: solid;
+  border-width: 1px;
+}
+div.timeline-axis-grid-minor {
+  border-color: #ededed;
+}  
+div.timeline-axis-grid-major {
+  border-color: #ededed;
+}  
+div.timeline-axis-text {
+  color: #939393;
+  font-size: 8pt; 
+  padding: 3px;
+  white-space: nowrap;
+}  
+
+div.timeline-axis-text-minor {
+}
+ 
+div.timeline-axis-text-major {
+}
+
+/* @end */
+
+/* @group Timeline Events */
+
+div.timeline-event {
+  color: #1A1A1A;
+  border: 1px solid #88bbc8; 
+  background-color: #f2f7f9;
+  word-wrap: break-word; 
+}
+
+div.timeline-event.text {
+}
+
+div.timeline-event.text div.timeline-event-content {
+}
+
+div.timeline-event-range.text div.timeline-event-content {
+}
+
+div.timeline-event-content a {
+	display:  block;
+}
+
+span.name {
+	display:  block;
+	text-align: left;
+	margin:  5px 5px 5px 5px;
+}
+
+span.date {
+	display:  block;
+	margin: 0px 5px 5px 5px; 
+	font-weight: normal; 
+	text-align: left;
+}
+
+div.timeline-event img {
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
+padding:  0px;
+margin:  0px;
+opacity: 1; 
+-webkit-transition:  opacity .5s ease-out;
+ -moz-transition:  opacity .5s ease-out;
+  -o-transition:  opacity .5s ease-out;
+   transition:  opacity .5s ease-out;
+}
+
+div.timeline-event img:hover {
+	opacity: .8;
+	-webkit-transition:  opacity .5s ease-out;
+	 -moz-transition:  opacity .5s ease-out;
+	 -o-transition:  opacity .5s ease-out;
+	 transition:  opacity .5s ease-out;
+}
+
+div.timeline-event-box:hover {
+background-color: #e7f2f7; 
+}
+
+div.timeline-event-selected {
+background-color: #b9d5e0;
+}
+
+
+div.timeline-event-box {
+  text-align: center;   
+  border-style: solid;
+  border-width: 2px;  
+  border-radius: 5px;  
+  -moz-border-radius: 5px; /* For Firefox 3.6 and older */ 
+}  
+
+
+div.timeline-event-range {
+  border-style: solid;
+  border-color: #ea805c;
+  background-color: #f8ebe4; 
+  border-width: 0 3px 0 3px;
+  border-radius: 0px; 
+   -moz-border-radius: 0px;  /* For Firefox 3.6 and older */
+   -webkit-transition:  background-color .5s ease-out;
+    -moz-transition:  background-color .5s ease-out;
+     -o-transition:  background-color .5s ease-out;
+      transition:  background-color .5s ease-out;
+}
+
+div.timeline-event-range:hover { 
+	background-color: #e3c8bf;
+}
+
+div.timeline-event-range:hover div.timeline-event-content {
+  overflow: visible;
+}
+
+div.timeline-event-range:hover div.timeline-event-content p {
+  background: #ddd;
+}
+
+
+div.timeline-event-range p {
+	margin: 5px 5px 5px 5px; 
+	text-align: center;
+	
+}
+
+div.timeline-event-line {
+  border-left-width: 1px;
+  border-left-style: solid;
+} 
+
+div.timeline-event-content {
+  margin: 0px;
+  white-space: nowrap; 
+  overflow: hidden;
+}
+
+div.timeline-event-content:hover {
+}
+
+div.timeline-customtime {
+  background-color: #6E94FF;
+  width: 2px;
+  cursor: move;
+}
+
+div.timeline-event-dot {
+	border-style: solid;
+	border-width: 3px;
+}
+
+/* @end */
+
+
+/* @group Timeline Navigation */
+
+div.timeline-navigation {
+  font-weight: bold;
+  color: gray;
+}
+
+div.timeline-navigation-new, div.timeline-navigation-delete, 
+    div.timeline-navigation-zoom-in,  div.timeline-navigation-zoom-out, 
+    div.timeline-navigation-move-left, div.timeline-navigation-move-right {
+  cursor: pointer;
+  padding: 10px 10px;
+  float: left;
+  text-decoration: none;
+  border-color: #BEBEBE; /* border is used for the separator between new and navigation buttons */
+  width: 15px;
+  height: 17px;
+}
+
+div.timeline-navigation-new {
+}
+
+div.timeline-navigation-delete {
+}
+
+div.timeline-navigation-zoom-in {
+  background: url('graphics/plus_sign_combined.png') 0 0 no-repeat;
+}
+
+div.timeline-navigation-zoom-in:hover {
+  background-position: -35px 0; 
+}
+
+div.timeline-navigation-zoom-out {
+  background: url('graphics/minus_sign_combined.png') 0 0 no-repeat;
+}
+
+div.timeline-navigation-zoom-out:hover {
+  background-position: -35px 0; 
+}
+
+div.timeline-navigation-move-left {
+ display: none;
+}
+
+div.timeline-navigation-move-right {
+	display: none; 
+}
+
+
+/* @end */
+
+
+/* @group Image Overlay*/
+
+.thumbcaption {
+	position: relative;
+}
+
+.thumbcaption:hover .caption {
+
+}
+
+span.caption {
+	display: block;
+	color: #ffffff;
+	border-bottom-left-radius: 3px;
+	border-top-left-radius: 3px;
+	background:  url(graphics/transparent-background.png) repeat;
+	background: rgba(0, 0, 0, .50);
+	padding:  3px;
+	margin-left: 3px;
+	font: bold 10px "Lucida Grande", Lucida, Verdana, sans-serif;
+    position:  absolute;
+    bottom:  3px;
+    right: 0px;
+   	text-align: right;
+	white-space: normal;
+   }
+
+
+/* @end */
+
+/* @group Slider */
+
+.ui-slider-handle {
+	height: 24px;
+	width:  10px; 
+}
+
+.slider-date {
+	top:  2px;
+	color:  white;
+	padding-left:  1px;
+	font-size:  .8em;
+}
+
+#slider {
+	position: relative; 
+	background-color:  #B7BABB;
+	height:  25px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	margin:  0px auto;
+}
+#slider-range {
+	position:  absolute; 
+	left:  0px;
+}
+
+.ui-widget { font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif; font-size: 1.1em; }
+.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif; font-size: 1em; }
+.ui-widget-content { color: #333333; 
+}
+.ui-widget-content a { color: #333333; }
+.ui-widget-header { background:  url(graphics/transparent-background-white.png) repeat; background: rgba(255, 255, 255, .50);
+	; color: #ffffff; font-weight: bold; height:  25px;
+}
+.ui-widget-header a { color: #ffffff; }
+
+.ui-slider { position: relative; text-align: left; }
+.ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: .7em; height: 1.2em; cursor: default; }
+.ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; }
+
+.ui-slider-horizontal { height: 1.6em; }
+.ui-slider-horizontal .ui-slider-handle { top: -.4em; margin-left: -.6em; height:  2.9em; }
+.ui-slider-horizontal .ui-slider-range { top: 0; height: 25px;}
+.ui-slider-horizontal .ui-slider-range-min { left: 0; }
+.ui-slider-horizontal .ui-slider-range-max { right: 0; }
+.ui-corner-all { -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+.ui-state-default, .ui-widget-content .ui-state-default { border: 2px solid #cccccc; background: #f6f6f6; font-weight: bold; color: #1c94c4; outline: none; }
+
+/* @end */
+
+/* @group Video Player */
+
+.video-play {
+border: 1px solid black;
+opacity: .5; 
+border-radius: 15px; 
+ position: absolute; 
+left: 5px; 
+top: 5px;     
+}
+
+.video-play:hover {
+ opacity: 1;    
+}
+
+.vidwrapper {
+	position:  relative;
+	cursor:  pointer;	
+}
+
+.vidplay {
+display: block;
+height:  30px;
+width:  30px;
+opacity: 0.5;
+position:  absolute;
+top:  5%;
+left:  5%;
+background: url(graphics/play.png) no-repeat center;
+-webkit-transition:  opacity .5s ease-out;
+ -moz-transition:  opacity .5s ease-out;
+  -o-transition:  opacity .5s ease-out;
+   transition:  opacity .5s ease-out;
+}
+
+.vidplay:hover {
+}
+
+.vidwrapper:hover .vidplay {
+	opacity:  1;
+	-webkit-transition:  opacity .5s ease-out;
+	 -moz-transition:  opacity .5s ease-out;
+	  -o-transition:  opacity .5s ease-out;
+	   transition:  opacity .5s ease-out;
+}
+
+/* @group inputs */
+
+.fullscreen ul.timeline-controls {
+  padding-right: 40px;
+}
+
+ul.timeline-controls {
+  float: right;
+  margin: 0px;
+}
+
+ul.timeline-controls li {
+  display: inline-block;
+}
+
+li.vertical-divider {
+  padding: 5px 10px 5px 10px;
+  line-height: 30px;
+}
+
+div#timeline-header input {
+  margin: 5px;
+}
+
+div#timeline-header button {
+  float: right;
+}
+
+/* @end */
+
+
+
+​
