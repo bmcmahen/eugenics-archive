@@ -23,6 +23,7 @@ require('./database');
 var app = express();
 
 // Use nib to handle endless, endless prefixes
+// It compiles stylus into css
 function compile(str, path) {
   return stylus(str)
     .set('filename', path)
@@ -41,7 +42,9 @@ app.configure(function(){
   app.use(express.session());
   app.use(app.router);
   app.use(stylus.middleware({
-    src: __dirname + '/public'
+    src: __dirname + '/styles'
+  , dest: __dirname + '/public'
+  , debug: true
   , compile : compile
 }));
   app.use(express.static(path.join(__dirname, 'public')));

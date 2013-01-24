@@ -205,8 +205,12 @@ var FormView = Backbone.View.extend({
      var html = []
       , self = this;
 
+      // Use DOM templates (provided in document-form.jade)
+      // to generate the appropriate HTML. Checkboxes (for PRODS)
+      // are build differently from other widgets, although
+      // this could probably be changed by altering the Schema.
+    
       function buildCheckbox(key, arr) {
-        console.log('checkbox rendering', key, arr);
         return self.fieldmap['checkbox']({name: key, attr: arr});
       }
 
@@ -247,8 +251,8 @@ var FormView = Backbone.View.extend({
     window.location = 'http://' + host + '/database/' + typeToParam[this.dataModel.get('type')];
   },
 
-  // This really sucks. I should precompile the templates as functions and then reference
-  // them instead of having ugly strings. 
+  // Maps widget types to templates that are contained within
+  // the DOM. 
 
   fieldmap :  {
 
@@ -261,7 +265,8 @@ var FormView = Backbone.View.extend({
 
   // This is ugly. But basically, it looks in the DOM for each
   // input element, and creates an object with name/value
-  // pairing. 
+  // pairings It treats Checkbox, Select, and other widgets
+  // differently. 
   
   parseForm : function() {
 
@@ -290,7 +295,6 @@ var FormView = Backbone.View.extend({
     json.type = this.$el.find('option:selected').val().toLowerCase(); 
 
     json.prods = prods; 
-    console.log('PRODS', prods);
     return json; 
 
   },

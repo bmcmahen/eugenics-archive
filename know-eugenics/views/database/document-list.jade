@@ -22,7 +22,7 @@ block content
           if doc.image
             img(src=doc.image.url)
           else
-            img(src='/images/thumb-placeholder.png')
+            img(src='/img/thumb-placeholder.png')
         td.title
           a(href='/database/'+documentType+'/'+doc._id) #{doc.title}
         td #{doc.shortDescription}
