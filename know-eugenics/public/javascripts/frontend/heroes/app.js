@@ -345,8 +345,6 @@ fullDescription, link.
 
 $.when( $.get('/api/documents/heroes') ).then( function(data){
 
-  console.log(data);
-
   FlipCard.CardView.prototype.events = {
     'click' : 'showDetail'
   };
@@ -375,9 +373,9 @@ $.when( $.get('/api/documents/heroes') ).then( function(data){
     $(this).parent().addClass('flip');
   });
 
-$('.back').on('click', function() {
-    $(this).parent().removeClass('flip');
-  });
+  $('.back').on('click', function() {
+      $(this).parent().removeClass('flip');
+    });
 
 /**
  * Flip a random card to show the viewer that it's possible

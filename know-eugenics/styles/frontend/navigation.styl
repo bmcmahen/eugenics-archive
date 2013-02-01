@@ -3,6 +3,7 @@
  */
 
 @import 'variables'
+@import 'bootstrap/mixins'
 
 // Header
 
@@ -18,29 +19,13 @@
     float right
     margin 0px
 
-  & ul.nav
+  & ul.nav a.active
+    gradient-vertical(#A9A89D, #B9B9B1)
+    pointer-events none
+    cursor default
 
-  //   & li
-  //     line-height 20px
-
-  //   & a
-  //     float none
-  //     padding 13px 20px 13px
-  //     background transparent
-  //     font 500 12px 'HelveticaNeue', Helvetica, Arial, Sans-serif
-  //     display block
-  //     text-shadow 0px 1px 1px rgba(255,255,255, 0.50)
-  //     transition background 0.3s
-
-      &.active
-        background-image linear-gradient(top,  #A9A89D, #B9B9B1)
-        // box-shadow inset 1px 1px 1px rgba(0,0,0,.30), 1px 1px 1px rgba(255,255,255,0.3)
-        pointer-events none
-        cursor default
-
-        & li:hover
-          background #eee
-          text-decoration none
+  & li:hover
+    text-decoration underline
 
 img.logo
   display block
@@ -52,33 +37,69 @@ img.logo
 
 #sub-header
   // box-shadow inset 0 -1px 1px rgba(255, 255, 255, 0.4),0 1px 1px rgba(0, 0, 0, 0.4)
-  background-image url('/background1.png')
+  background-image url('/img/frontend/background1.png')
   border-bottom 1px solid #bbb
 
   & div.prod
-    transform scale(0.85)
-    transform-style preserve-3d
-    transition -webkit-transform 0.17s linear
-    box-shadow 2px 2px 25px rgba(0,0,0,.25)
-    backface-visibility hidden
+    scale(0.85)
+    backface-visibility(hidden)
+    -webkit-transition all .2s ease-in-out
+    box-shadow(2px 2px 25px rgba(0,0,0,.25))
     margin-top 18px
     margin-bottom 18px
     padding 7px
     background rgba(255, 255, 255, 0.8)
-    border-radius $borderRadius
+    border-radius($borderRadius)
 
     &:hover
-      transform scale(1)
+      scale(1)
 
     &.active
-      transform scale(1)
+      scale(1)
 
     & img
       max-width 100%
-      border-radius $borderRadius
+      border-radius($borderRadius)
 
     & p.label
       margin 2px
       padding-top 4px
       font 700 11px "HelveticaNeue-Light" 
       color #666
+
+#header .navbar
+  margin-bottom: 20px
+  color: #777777
+
+#header .navbar-inner
+  gradient-vertical(#B9B9B1, #A9A89D)
+  border-bottom 1px solid #888
+  box-shadow 2px 2px 25px rgba(0,0,0,0.25)
+
+#header .navbar .brand
+  float: right
+  display: block
+  padding: 10px 20px 10px
+  margin-left: -20px
+  font-size: 20px
+  font-weight: 200
+  color: #777777
+  text-shadow: 0 1px 0 #ffffff
+
+#header .navbar .nav > li > a
+  color #eee
+  text-shadow 0 1px 0 rgba(0,0,0,0.5)
+  padding 13px 15px
+
+#header .navbar .divider-vertical
+  border-left: 1px solid rgb(148, 148, 148)
+  border-right: 1px solid rgb(201, 201, 201)
+  height 42px
+
+#app h2
+  font-weight 800
+  font-size 23px
+  color #333
+
+#fullscreenmode
+  color #999

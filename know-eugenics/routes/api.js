@@ -72,6 +72,14 @@ var init = function(app){
     });
   });
 
+  // Timeline data
+  app.get('/api/documents/timeline', function(req, res){
+    Documents.find({prods: 'timeline'}, function(err, docs){
+      if (!err)
+        res.send(docs);
+    });
+  });
+
 }
 
 module.exports = init; 

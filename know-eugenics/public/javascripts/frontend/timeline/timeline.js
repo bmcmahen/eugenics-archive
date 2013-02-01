@@ -662,6 +662,8 @@ links.Timeline.prototype.redrawFrame = function() {
     this.redrawCurrentTime();
     this.redrawCustomTime();
     this.redrawNavigation();
+
+    console.log('redraw', dom.frame.style.height);
 };
 
 

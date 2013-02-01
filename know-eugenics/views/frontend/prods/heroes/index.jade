@@ -54,7 +54,7 @@ block templates
         </div>
           <a href='#' id='{{_id}}' class='personInfo' name='{{title}}' onclick='window.event.stopPropagation(); return hs.htmlExpand(this)'>More info</a>
              <div class="highslide-maincontent">
-              <img src="{{image}}' alt='A picture of {{title}}"/> 
+              <img src="{{image.url}}' alt='A picture of {{title}}"/> 
               <em>
                 {{#if heroQuote}}
                   <p>{{ heroQuote }}</p>
@@ -70,9 +70,11 @@ block templates
                {{fullDescription}}
               </p>
               <p> 
-              {{#each link}}
-                <a href='{{this}}'>
-              {{/each}}
+              {{#if link}}
+                {{#each link}}
+                  <a href='{{this}}'> Link </a>
+                {{/each}}
+              {{/if}}
              </p>
           </div>
       </div>

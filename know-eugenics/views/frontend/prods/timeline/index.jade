@@ -1,0 +1,88 @@
+extends ../layout
+
+block append styles 
+    link(href='/prod_styles/timeline/timeline.css', rel='stylesheet')
+    link(href='/prod_styles/timeline/highslide.css', rel='stylesheet')
+
+block append scripts
+    script(src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js")
+    script(src='/javascripts/frontend/timeline/highslide-full.min.js')
+    script(src='/javascripts/frontend/timeline/timeline.js')
+    script(src='/javascripts/frontend/timeline/highslide_custom.js')
+    script(src='/javascripts/frontend/timeline/timelineCombined.js')
+    script(src='/javascripts/frontend/timeline/video.js')
+    script(src='/javascripts/frontend/fullscreen.js')
+
+block subnav-timeline
+  .prod.active
+    img(src='/img/frontend/timeline.png', role='presentation')
+    p.label Timeline of Eugenics
+
+block content
+  #app
+        h2 Eugenics Timeline
+        a#fullscreenmode(href='#') (Full Screen)
+        ul.timeline-controls
+          li
+            select.timeline-filter#timeline-filter
+              option Eugenics in Canada
+              optgroup label='All'
+                option All Categories
+              optgroup label='Type'
+                option Art
+                option Law
+                option Legislation
+                option Organizations
+                option People
+                option Politics
+                option Science
+          li.vertical-divider |
+          li
+            fieldset(title='for the timeline-date-range', aria-live='polite')
+              label(for='startDate')
+              input#startDate.short(type='text', name='startDate')
+              label(for='endDate')
+              input#endDate.short(type='text, name='endDate')
+              button#setStartDate.btn Set Visible Dates
+        #mytimelinewrapper(role='navigation')
+          a.leftarrow(href='#', title='Move Backwards in Time')
+          a.rightarrow(href='#', title='Move Forward in Time')
+
+          #mytimeline
+
+          #slider(role='slider')
+            #slider-range
+
+  #modalbackdrop
+            
+  block templates   
+    script(type='text/template', id='timeline-text').
+      <a href="javascript:void(0);" title="Click to display additional information in Pop-up." name="<%= name %>" onclick="return hs.htmlExpand(this)">
+          <span class="name"><strong> <%= startDate %> </strong> : <%= title %></span>
+      </a>
+      <div class="highslide-maincontent">
+          <p title="Press Escape to Return to Timeline.">
+          <strong><%= startDate %> : </strong>
+          <%= fullDescription %>
+          </p>
+      </div>
+
+    script(type='text/template', id='timeline-image').
+      <a href="<%= image %>" title="Click to display additional information in Pop-up." class="highslide" onclick="return hs.expand(this)">
+          <img class='timeline-image' src="<%= imageThumb %>" alt="<%= name %>" style='height: <%= thumbHeight %>px; width: <%= thumbWidth %>px;'>
+          <span class='caption'> <%= startDate %> : <%= title %> </span>
+      </a>
+
+      <div class="highslide-caption">
+          <p title="Press Escape to Return to Timeline.">
+              <strong><%= startDate %> : </strong>
+              <%=description%>
+          </p>
+      </div>
+
+    script(type='text/template', id='timeline-video').
+      <div class="vidwrapper" m4v="<%= m4v %>">
+             <img src="<%= imageThumb %>" alt="Click to Play Video" style='height: <%= thumbHeight %>px; width: <%= thumbWidth %>px;'> 
+             <span class='caption'> <%= name %> </span>
+             <div class="vidplay"></div>
+       </div>   
