@@ -6,15 +6,13 @@ var Router = Backbone.Router.extend({
   },
 
   editDocument: function(doctype, id){
-    console.log('edit document', doctype, id);
     var urlRoot = '/api/documents/'+ doctype;
-    var data = new DataModel({ _id : id }, {urlRoot : urlRoot});
+    var data = new Forms.DataModel({ _id : id }, {urlRoot : urlRoot});
   },
 
   newDocument: function(type){
-    console.log('new document');
     var urlRoot = '/api/documents/new';
-    var data = new DataModel({}, { urlRoot: urlRoot });
+    var data = new Forms.DataModel({}, { urlRoot: urlRoot });
   }
 
 });

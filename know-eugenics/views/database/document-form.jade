@@ -3,54 +3,77 @@ extends layout
 block scripts
 
   script#textarea(type='text/html').
-    <div class='form-element'>
-      <label>
-        <%= attr.label %>
-        <textarea id="<%= name %>" name="<%= name %>"><%=attr.value%></textarea>
-      </label>
-      <% if (attr.helpText) { %>
-        <span class="help-block"> <%= attr.helpText %> </span>
-      <% } %>
-    </div>
+      {{#with object}}
+        <label>
+          {{label}}
+          {{#if required}} * {{/if}}
+          <textarea id="{{name}}" name="{{name}}" class='{{className}}'>{{value}}</textarea>
+        </label>
+        {{#if error}}
+          <p class='error-text'>{{error}}</p>
+        {{/if}}
+        {{#if helpText}}
+          <span class="help-block"> {{helpText}} </span>
+        {{/if}}
+      {{/with}}
 
   script#text(type='text/html').
-    <div class='form-element'>
-      <label>
-        <%= attr.label %>
-        <input id="<%= name %>" type="text" name="<%= name %>" value="<%= attr.value %>">
-      </label>
-      <% if (attr.helpText) { %>
-        <span class="help-block"> <%= attr.helpText %> </span>
-      <% } %>
-    </div>
+      {{#with object}}
+        <label>
+          {{label}}
+          {{#if required}} * {{/if}}
+          <input id="{{name}}" type="text" name="{{name}}" value="{{value}}">
+        </label>
+        {{#if error}}
+          <p class='error-text'>{{error}}</p>
+        {{/if}}
+        {{#if helpText}}
+          <span class="help-block"> {{helpText}} </span>
+        {{/if}}
+      {{/with}}
 
   script#checkbox(type='text/html').
-    <div class='form-element'>
+    {{#with object}}
       <h5> Select PRODs: </h5>
       <div class='well'>
-        <% _.each(attr[0], function(val, key) { %>
-          <label class="prod <%= key %>">
-            <input type="checkbox" name="<%= key %>" <%= val.value %> >
-            <%= val.label %>
+        {{#each fields}}
+          {{#each this}}
+          <label class="prod {{this.name}}">
+            <input type="checkbox" name="{{this.name}}" {{this.value}} >
+            {{this.label}}
           </label>
-          <% if (val.helpText) { %>
-            <span class="help-block"> <%= val.helpText %> </span>
-          <% } %>
-        <% }); %>
+          {{#if this.helpText}}
+            <span class="help-block"> {{this.helpText}} </span>
+          {{/if}}
+          {{/each}}
+        {{/each}}
       </div>
       <span class='help-block'> Selecting a PROD from the list above will
       include this document on that PROD. It will also append fields to this form that
       are required for that PROD.</span>
+    {{/with}}
+
+  script#formset(type='text/html').
+    <div class='formset' id='<%= name %>'>
+      <h5> Links </h5>
+      <div class='well'>
+      <%= forms %>
+      <button class='btn'>Add Another</button>
+      </div>
+    </div>
+
+  script#forms(type='text/html').
+    <div class='form'>
+    <%= fields %>
     </div>
 
   script#select(type='text/html').
-    <div class='form-element'>
       <label class="<%= name %>">
-        <%= attr.label %>
+        <%= object.label %>
         <select>
-        <% _.each(attr.options, function(val) { %>
+        <% _.each(object.options, function(val) { %>
           <option value="<%= val %>"
-            <% if (val.toLowerCase() === attr.value) { %>
+            <% if (val.toLowerCase() === object.value) { %>
               selected
             <% } %> >
             <%= val %>
@@ -58,24 +81,32 @@ block scripts
         <% }); %>
         </select>
       </label>
-      <% if (attr.helpText) { %>
-        <span class="help-block"> <%= attr.helpText %> </span>
+      <% if (object.helpText) { %>
+        <span class="help-block"> <%= object.helpText %> </span>
       <% } %>
-    </div>
 
   script#image(type='text/html').
-    <div class='form-element'>
-      <% if (attr.value) { %>
-        <a id='change-image' href='#'> Change Image </a>
-      <% } else { %> 
-        <a id='add-image' href='#'> Add Image </a>
-      <% } %>
-      <% if (attr.helpText) { %>
-        <span class="help-block"> <%= attr.helpText %> </span>
-      <% } %>
-    </div>
+      {{#with object}}
+          
+        {{#if loading}}
+          <img src='/img/loading.gif'>
+        {{/if}}
 
-  script(src='/javascripts/backbone-forms.js')
+        {{#if value}}
+        <img src='{{value.url}}/convert?w=100&h=100'>
+        <a id='change-image' href='#'> Change Image </a>
+        {{else}}
+          {{#unless loading}}
+            <a id='add-image' href='#'> Add Image </a>
+          {{/unless}}
+        {{/if}}
+        <input type='file' class='image-input'>
+        {{#if helpText}}
+        <span class="help-block"> {{helpText}} </span>
+        {{/if}}
+      {{/with}}
+
+  script(src='/javascripts/backbone-forms-clean.js')
   script(src='/javascripts/backbone-router.js')
 
 

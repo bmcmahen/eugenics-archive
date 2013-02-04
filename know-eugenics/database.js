@@ -23,7 +23,9 @@ var documentSchema = new Schema({
   image: {},
   prods: [],
   type: String,
-  date: { type: Date }
+  date: { type: Date },
+  startDate: { type: Date },
+  endDate: { type: Date }
 }, {strict: false});
 
 exports.Document = mongoose.model('Document', documentSchema);

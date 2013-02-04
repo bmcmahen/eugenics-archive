@@ -58,7 +58,7 @@ block content
   block templates   
     script(type='text/template', id='timeline-text').
       <a href="javascript:void(0);" title="Click to display additional information in Pop-up." name="<%= name %>" onclick="return hs.htmlExpand(this)">
-          <span class="name"><strong> <%= startDate %> </strong> : <%= title %></span>
+          <span class="name"><strong> <% if (!startDate) { %> <%= startDate %> <% } else { %> <%= date %> <% }; %> </strong> : <%= title %></span>
       </a>
       <div class="highslide-maincontent">
           <p title="Press Escape to Return to Timeline.">

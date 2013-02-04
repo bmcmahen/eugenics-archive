@@ -35,8 +35,7 @@ var init = function(app){
    
    if (req.doc) {
 
-    _.extend(req.doc, req.body);
-
+    req.doc.set(req.body);
     req.doc.save(function(err){
       if (!err)
         return res.send(req.doc);

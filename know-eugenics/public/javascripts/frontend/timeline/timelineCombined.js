@@ -86,47 +86,67 @@ _.extend(TimelineWrapper.prototype, {
     var dataLength = json.length
     , processedDatas = [];
 
+    // Ensure that we have the necessary fields. If we don't
+    // then simply don't append them to the timeline. 
+    function valid(entry){
+      if (entry.startDate
+        || entry.date
+        && entry.shortDescription
+        && entry.fullDescription) {
+        return true;
+      } else {
+        return false; 
+      }
+    }
+
     for (var i= 0; i < dataLength; i++){
 
       var obj = {}
         , compiled, html;
 
-      // if an image is present, use image template
-      if (json[i].image) {
-        compiled = _.template($('#timeline-text').html());
-        html = compiled(json[i]);
-        obj.className = 'text'
+      if (valid(json[i])) {
 
-      // if video is present, use video template
-      } else if (json[i].video) {
-        compiled = _.template($('#timeline-video').html());
-        html = compiled(json[i]);
-        obj.className = 'video' 
+        console.log(json[i]);
+        
+        // if an image is present, use image template
+        if (json[i].image) {
+          compiled = _.template($('#timeline-text').html());
+          html = compiled(json[i]);
+          obj.className = 'text'
 
-      // otherwise, consider it a regular text entry     
-      } else {
-        compiled = _.template($('#timeline-text').html());
-        html = compiled(json[i]);
-        obj.className = 'text'
+        // if video is present, use video template
+        } else if (json[i].video) {
+          compiled = _.template($('#timeline-video').html());
+          html = compiled(json[i]);
+          obj.className = 'video' 
+
+        // otherwise, consider it a regular text entry     
+        } else {
+          compiled = _.template($('#timeline-text').html());
+          html = compiled(json[i]);
+          obj.className = 'text'
+        }
+
+        // if endDate is defined, add it.
+        if (json[i].endDate) {
+          obj.end = new Date(json[i].endDate);
+        }
+
+        // if we only have a date field, then consider
+        // it the start date. If we 
+        if (json[i].date && !json[i].startDate)
+          obj.start = new Date(json[i].date);
+        else if (json[i].date && json[i].startDate)
+          obj.start = new Date(json[i].startDate);
+        else
+          obj.start = new Date(json[i].startDate);
+
+        obj.content = html; 
+
+        console.log(obj);
+
+        processedDatas.push(obj);
       }
-
-      // if endDate is defined, add it.
-      if (json[i].endDate) {
-        obj.end = new Date(json[i].endDate);
-      }
-
-      // if we only have a date field, then consider
-      // it the start date. If we 
-      if (json[i].date && !json[i].startDate)
-        obj.start = new Date(json[i].date);
-      else if (json[i].date && json[i].startDate)
-        obj.start = new Date(json[i].startDate);
-      else
-        obj.start = new Date(json[i].startDate);
-
-      obj.content = html; 
-
-      processedDatas.push(obj);
     }
 
     this.data = processedDatas;
@@ -384,6 +404,7 @@ $(function(){
     timeline.parseJSON().draw();
   });
   
+  // add the slider
   var slider = new Slider(timeline);
   timeline.slider = slider; 
   slider.addDragToSlider();
