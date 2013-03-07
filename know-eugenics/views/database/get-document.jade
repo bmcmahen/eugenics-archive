@@ -16,6 +16,10 @@ mixin parseObject(array)
         when 'fullDescription'
           dt Full Description
           dd #{val.value}
+        when 'image'
+          dt Image
+          dd 
+            img(src='#{val.value.url}')
         when 'date'
           dt Date
           dd #{val.value.toDateString()}

@@ -1,14 +1,15 @@
 @import 'frontend/variables'
 @import 'frontend/buttons'
 @import 'frontend/navigation'
-@import 'bootstrap/reset'
-@import 'bootstrap/variables'
-@import 'bootstrap/mixins'
-@import 'bootstrap/scaffolding'
-@import 'bootstrap/grid'
-@import 'bootstrap/layouts'
-@import 'bootstrap/navs'
-@import 'bootstrap/navbar'
+@import 'custom_bootstrap/reset'
+@import 'custom_bootstrap/variables'
+@import 'custom_bootstrap/mixins'
+@import 'custom_bootstrap/scaffolding'
+@import 'custom_bootstrap/grid'
+@import 'custom_bootstrap/layouts'
+@import 'custom_bootstrap/navs'
+@import 'custom_bootstrap/navbar'
+@import 'custom_bootstrap/tooltip'
 
 
 /**
@@ -64,10 +65,12 @@ ul
 
 #app
   padding-top 20px
+  min-height 500px
 
   &.fullscreen
     position fixed
     margin-top 0px
+    min-height none
     top 0
     height 100%
     overflow auto

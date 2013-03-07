@@ -13,7 +13,7 @@ block append scripts
     script(src='/javascripts/frontend/timeline/video.js')
     script(src='/javascripts/frontend/fullscreen.js')
 
-block subnav-timeline
+lock subnav-timeline
   .prod.active
     img(src='/img/frontend/timeline.png', role='presentation')
     p.label Timeline of Eugenics
@@ -43,10 +43,10 @@ block content
               input#startDate.short(type='text', name='startDate')
               label(for='endDate')
               input#endDate.short(type='text, name='endDate')
-              button#setStartDate.btn Set Visible Dates
+              button#setStartDate.btn(onclick='setTime();') Set Visible Dates
         #mytimelinewrapper(role='navigation')
-          a.leftarrow(href='#', title='Move Backwards in Time')
-          a.rightarrow(href='#', title='Move Forward in Time')
+          a.leftarrow(href='javascript:void(0)', title='Move Backwards in Time', onClick='moveTimeline(-0.2);')
+          a.rightarrow(href='javascript:void(0)', title='Move Forward in Time', onClick='moveTimeline(0.2);')
 
           #mytimeline
 
@@ -57,26 +57,43 @@ block content
             
   block templates   
     script(type='text/template', id='timeline-text').
-      <a href="javascript:void(0);" title="Click to display additional information in Pop-up." name="<%= name %>" onclick="return hs.htmlExpand(this)">
-          <span class="name"><strong> <% if (!startDate) { %> <%= startDate %> <% } else { %> <%= date %> <% }; %> </strong> : <%= title %></span>
+      <a href="javascript:void(0);" title="Click to display additional information in Pop-up." name="{{name}}" onclick="return hs.htmlExpand(this)">
+          <span class="name"><strong> 
+            {{#if startDate}} 
+              {{dateFormat startDate format='YYYY'}} 
+            {{else}} 
+              {{dateFormat date format='YYYY'}} 
+            {{/if}} 
+          </strong> : {{title}}</span>
       </a>
       <div class="highslide-maincontent">
           <p title="Press Escape to Return to Timeline.">
-          <strong><%= startDate %> : </strong>
-          <%= fullDescription %>
+          <strong>{{startDate}} : </strong>
+          {{fullDescription}}
           </p>
       </div>
 
     script(type='text/template', id='timeline-image').
-      <a href="<%= image %>" title="Click to display additional information in Pop-up." class="highslide" onclick="return hs.expand(this)">
-          <img class='timeline-image' src="<%= imageThumb %>" alt="<%= name %>" style='height: <%= thumbHeight %>px; width: <%= thumbWidth %>px;'>
-          <span class='caption'> <%= startDate %> : <%= title %> </span>
+      <a href="javascript:void(0)" title="Click to display additional information in Pop-up." class="highslide" onclick="return hs.expand(this)">
+          <img class='timeline-image' src="{{image.url}}/convert?w=600&h=450&fit=crop&align=faces" alt="{{name}}" style='height: 150px; width: 200px;'>
+          <span class='caption'> 
+            {{#if startDate}} 
+              {{dateFormat startDate format='YYYY'}} 
+            {{else}}
+              {{dateFormat date format='YYYY'}} 
+            {{/if}} : {{title}} 
+          </span>
       </a>
 
       <div class="highslide-caption">
           <p title="Press Escape to Return to Timeline.">
-              <strong><%= startDate %> : </strong>
-              <%=description%>
+              <strong>
+                {{#if startDate}} 
+                  {{startDate}} 
+                {{else}}
+                  {{date}}
+                {{/if}} : {{title}} </strong>
+              {{fullDescription}}
           </p>
       </div>
 

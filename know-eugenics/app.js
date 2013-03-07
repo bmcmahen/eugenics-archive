@@ -7,7 +7,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , stylus = require('stylus')
-  , nib = require('nib');
+  , nib = require('nib')
+  , passport = require('passport');
 
 /**
  * Import custom modules
@@ -40,6 +41,8 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('scrawny dog'));
   app.use(express.session());
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(app.router);
   app.use(stylus.middleware({
     src: __dirname + '/styles'
@@ -72,12 +75,14 @@ require('./routes/database')(app);
 // Front End Routes
 require('./routes/frontend')(app);
 
-// API 
+// API
 require('./routes/api')(app);
 
 // Params (In which I auto cache elements based on url paramaters)
 require('./routes/params')(app);
 
+// Authentication
+require('./accounts/accounts');
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

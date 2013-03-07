@@ -3,7 +3,7 @@
  * (c) 2012 Ben McMahen
  *
  * FlipCard may be freely distributed under the MIT license.
- * TO DO: Pagination. 
+ * TO DO: Pagination.
  */
 
 $(function() {
@@ -32,7 +32,7 @@ $(function() {
 
 
 /*
-	Basic model for each card, only responsible for setting hide attribute. 
+	Basic model for each card, only responsible for setting hide attribute.
 */
 		Browser.Card = Backbone.Model.extend({
 
@@ -51,8 +51,8 @@ $(function() {
 		});
 
 /*
-	Represents a collection of cards, and the primary logic for 
-	filtering, sorting, and determining the location fo each card. 
+	Represents a collection of cards, and the primary logic for
+	filtering, sorting, and determining the location fo each card.
 */
 
 		Browser.Cards = Backbone.Collection.extend({
@@ -61,11 +61,9 @@ $(function() {
 
 			filterCards: function(query, field) {
 
-				var filtered, modelsToHide; 
+				var filtered, modelsToHide;
 
 				if (this.hidden) this.showHiddenModels();
-
-				console.log(field)
 
 				if (typeof field != 'undefined') {
 					var re = new RegExp(query, "i");
@@ -76,7 +74,7 @@ $(function() {
 					filtered = this.filter(function(card) {
 						var field = card.get('tags');
 						return _.contains(field, query);
-					})
+					});
 				}
 
 
@@ -91,7 +89,7 @@ $(function() {
 					});
 				} else {
 					modelsToHide = this.reject(function(card){
-						return _.contains(card.get('tags'), query)
+						return _.contains(card.get('tags'), query);
 					});
 				}
 
@@ -113,18 +111,18 @@ $(function() {
 				var getJustified = function(){
 					var width = (containerWidth - (boxWidth * 2));
 					return Math.floor(width/(boxWidth + paddingWidth)) + 2;
-				}
+				};
 
 				var getCentered = function(){
 					return Math.floor(containerWidth/(boxWidth + paddingWidth));
-				}
+				};
 
 				// Use either get Justified or Centering logic to compute boxes per
 				// row, depending on user settings.
-				return Browser.options.justified ? getJustified() : getCentered()
+				return Browser.options.justified ? getJustified() : getCentered();
 			},
 
-			// MX = left and right padding width of container, for centering. 
+			// MX = left and right padding width of container, for centering.
 			getPaddingWidth: function() {
 
 				var containerWidth = $(Browser.options.wrapper).width(),
@@ -151,7 +149,7 @@ $(function() {
 						c = index % boxesPerRow;
 
 					var getCentered = function(){
-						return mx + (c * (boxWidth + paddingWidth));	
+						return mx + (c * (boxWidth + paddingWidth));
 					};
 
 					var getJustified = function(){
@@ -162,12 +160,12 @@ $(function() {
 							var padding = remainingSpace / (boxesPerRow - 1);
 							return boxWidth + (c * padding) + ((c - 1) * boxWidth)
 						}
-					}
+					};
 
 					// Use either Centered logic or Justified logic for determining left position
 					// of card elements.
-					var left = Browser.options.justified ? getJustified() : getCentered()
-					var top = ((r * boxHeight) + (r + 1) * paddingHeight);	
+					var left = Browser.options.justified ? getJustified() : getCentered();
+					var top = ((r * boxHeight) + (r + 1) * paddingHeight);
 
 					cardModel.set({
 						position_top: top,
@@ -196,7 +194,7 @@ $(function() {
 
 			},
 
-			// Hides each model in the collection. 
+			// Hides each model in the collection.
 			hideModels: function() {
 				this.each(function(model) {
 					model.hide();
@@ -239,13 +237,13 @@ $(function() {
 		Browser.CardsView = Backbone.View.extend({
 
 			tagName: "div",
-			
+
 			className: "cards",
-			
+
 			initialize: function(options) {
 				this.collection.on('setHeight', this.setHeight, this);
 			},
-			
+
 			render: function() {
 				var views = this.collection.map(function(card) {
 
@@ -253,13 +251,13 @@ $(function() {
 						model: card
 					});
 
-					return newCard.render().el;	
+					return newCard.render().el;
 				});
 
 				this.$el.append(views);
 				return this;
 			},
-			
+
 			setHeight: function(height) {
 				this.$el.height(height);
 			}
@@ -267,7 +265,7 @@ $(function() {
 		});
 /*
 	CardView class represents each individual card and is responsible
-	for the drawing each card. 
+	for the drawing each card.
 */
 		Browser.CardView = Backbone.View.extend({
 
@@ -285,7 +283,7 @@ $(function() {
 
 			render: function(options) {
 				var json = this.model.toJSON();
-				json.id = this.model.cid; 
+				json.id = this.model.cid;
 				this.$el.html(this.template(json));
 				this.redraw();
 				return this;
@@ -318,12 +316,12 @@ $(function() {
 
 			flipCard: function(event) {
 				var $card = $(event.currentTarget);
-				$card.hasClass('flip') ? $card.removeClass('flip') : $card.addClass('flip')
+				$card.hasClass('flip') ? $card.removeClass('flip') : $card.addClass('flip');
 			},
 
 			showDetail: function(event){
 				var detailView = new Browser.DetailView({
-					model: this.model,
+					model: this.model
 				});
 
 				Browser.options.app.transitionViews(detailView, this.model);
@@ -331,7 +329,7 @@ $(function() {
 		});
 
 /*
-	Represents a detailed view of the card clicked on.  
+	Represents a detailed view of the card clicked on.
 */
 
 		Browser.DetailView = Backbone.View.extend({
@@ -343,21 +341,21 @@ $(function() {
 
 			render: function(options) {
 				this.$el.html(this.template(this.model.toJSON()));
-				return this; 
+				return this;
 			},
 
 			close: function(){
 				this.remove();
-				this.unbind(); 
+				this.unbind();
 			}
 		});
 
 /*
 	The filterview provides built-in methods and events for using filters
-	with the collection data. This needs to be generalized. 
+	with the collection data. This needs to be generalized.
 */
 		Browser.FilterView = Backbone.View.extend({
-			
+
 			initialize: function(){
 				this.template = Browser.options.toolbarTemplate;
 			},
@@ -368,7 +366,7 @@ $(function() {
 				this.$el.html(this.template({}));
 				return this;
 			},
-		
+
 			events: function(){
 				var _events = {};
 
@@ -378,10 +376,10 @@ $(function() {
 
 				return _events;
 			},
-			
+
 			filterCards: function(event) {
 				event.preventDefault();
-				var filterField = $(Browser.options.filterClass + ' :selected').val()
+				var filterField = $(Browser.options.filterClass + ' :selected').val();
 
 				if (filterField === "all") {
 					this.collection.showHiddenModels();
@@ -389,7 +387,7 @@ $(function() {
 				}
 				else this.collection.filterCards(filterField);
 			},
-			
+
 			sortCards: function(event) {
 				event.preventDefault();
 
@@ -397,12 +395,12 @@ $(function() {
 
 				if (!_.isUndefined(sortField)) this.collection.sortModels(sortField);
 			},
-			
+
 			searchCards: function(event) {
 				event.preventDefault();
 
 				var query = $(Browser.options.searchField).val();
-				this.collection.filterCards(query, 'name');
+				this.collection.filterCards(query, 'title');
 			}
 		});
 
@@ -416,7 +414,7 @@ $(function() {
 
 				// Set Browser Options
 				Browser.options = _.defaults(options, Browser.options);
-				Browser.options.app = this; 
+				Browser.options.app = this;
 
 				// Create new Cards collection, add data, and determine location.
 				this.cards = new Browser.Cards();
@@ -457,8 +455,8 @@ $(function() {
 				if (this.currentView) this.currentView.close();
 				$(Browser.options.detailView).html(view.render().el);
 
-				this.currentView = view; 
-				this.currentModel = model; 
+				this.currentView = view;
+				this.currentModel = model;
 			}
 		});
 

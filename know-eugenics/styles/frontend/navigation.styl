@@ -3,7 +3,7 @@
  */
 
 @import 'variables'
-@import 'bootstrap/mixins'
+@import 'custom_bootstrap/mixins'
 
 // Header
 
@@ -39,6 +39,7 @@ img.logo
   // box-shadow inset 0 -1px 1px rgba(255, 255, 255, 0.4),0 1px 1px rgba(0, 0, 0, 0.4)
   background-image url('/img/frontend/background1.png')
   border-bottom 1px solid #bbb
+  height 150px
 
   & div.prod
     scale(0.85)
@@ -47,8 +48,10 @@ img.logo
     box-shadow(2px 2px 25px rgba(0,0,0,.25))
     margin-top 18px
     margin-bottom 18px
+    height 116px
+    box-sizing border-box
     padding 7px
-    background rgba(255, 255, 255, 0.8)
+    background white
     border-radius($borderRadius)
 
     &:hover
@@ -64,7 +67,7 @@ img.logo
     & p.label
       margin 2px
       padding-top 4px
-      font 700 11px "HelveticaNeue-Light" 
+      font 700 11px "HelveticaNeue-Light"
       color #666
 
 #header .navbar

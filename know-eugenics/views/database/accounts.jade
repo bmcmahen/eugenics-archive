@@ -1,0 +1,22 @@
+extends layout
+
+block breadcrumbs
+	li
+		a(href='/database') Home
+		span.divider /
+	li.active Accounts
+block content
+	.row
+		.span6
+			h3 Invite New User
+			form#new-user(name='newuser', action='/auth/newuser', method='post')
+				label New User Email
+				input(type='email', name='email')
+				span.help-block Warning: This user will have full read/write access to the database.
+				input.btn.btn-primary(type='submit', value='Send Invitation')
+		.span6
+			h3 Current Users
+			ul.unstyled
+				for user in users
+					li
+						span=user.email

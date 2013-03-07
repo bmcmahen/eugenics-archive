@@ -1,6 +1,4 @@
-@import 'bootstrap/bootstrap'
 @import 'nib'
-
 
 body
   padding-top 60px
@@ -60,7 +58,7 @@ p.blurb
     width 100%
 
   &:hover
-    background-color white
+    background-color #ccc
 
 table td
   background-color rgb(236, 236, 236)
@@ -90,16 +88,11 @@ dt
 span.prod
   text-transform capitalize
 
-a.new-document
-  background-color #2c77ba
-  color #eee
-  background-image none
+.center
+  text-align center
 
-  &:hover
-    background-color rgb(37, 100, 156)
-
-  & i
-    margin-right 5px
+.margin-top
+  margin-top 35px
 
 h4
   margin-bottom 30px
@@ -161,3 +154,36 @@ span.help-block
 
 #myForm .quote
   height 100px
+
+td.image img
+  max-width 40px
+  max-height 40px
+
+.form-field a
+  display block
+
+#form-wrapper
+  float left
+
+#prod-wrapper
+  float left
+  width 440px
+  margin-left 50px
+
+h5
+  margin-top 0
+  margin-bottom 3px
+
+.navbar-inverse .nav > li > a .caret
+  margin-left 5px
+  border-top-color #aaa
+  border-bottom-color #aaa
+  color: #999999
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+
+.nav .dropdown-toggle:hover .caret, .nav .dropdown-toggle:focus .caret
+  border-top-color #ddd !important
+  border-bottom-color #ddd !important
+
+.nav.pull-right li a i.icon-pencil
+  padding-right 4px

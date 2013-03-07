@@ -1,5 +1,5 @@
 /**
-* @file: highslide.css 
+* @file: highslide.css
 * @version: 4.1.13
 */
 .highslide-container div {
@@ -10,16 +10,16 @@
 }
 
 .highslide-container p {
-} 
+}
 
 .highslide-container .highslide-caption {
-	
+
 }
 .highslide-container table {
 	background: none;
 }
 .highslide {
-	outline: none; 
+	outline: none;
 	text-decoration: none;
 }
 .highslide img {
@@ -148,6 +148,7 @@ a.highslide-credits:hover i {
 .highslide-maincontent p {
 	color: #333;
 	font: 400 10pt HelveticaNeue, Helvetica, Arial, Sans-serif;
+	outline: none;
 }
 
 .highslide-maincontent img {
@@ -263,7 +264,7 @@ a.highslide-credits:hover i {
 	display: block;
 	height: 19px;
 	width: 20px;
-	
+
 	background-image: url(graphics/CloseCombined.png);
 	z-index: 10;
 }
@@ -297,7 +298,7 @@ background-position: 0 19px;
 	top: 0;
 	width: 100%;
 	z-index: 1;
-	
+
 }
 .titlebar .highslide-header .highslide-move * {
 	display: none;
@@ -307,7 +308,7 @@ background-position: 0 19px;
 	top: 3px;
 	z-index: 2;
 	padding: 0 0 0 1em;
-	
+
 }
 .titlebar .highslide-maincontent {
 	padding-top: 1em;

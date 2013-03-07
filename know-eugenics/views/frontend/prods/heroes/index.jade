@@ -13,7 +13,7 @@ block subnav-heroes
   .prod.active
     img(src='/img/frontend/hero.png', role='presentation')
     p.label Heroes & Villains
-                
+
 block content
   #app
     h2 Heroes and Villains
@@ -21,7 +21,7 @@ block content
     #flipcard-toolbar
     .content
       #flipcard-wrapper
-  
+
   #modalbackdrop
 
 
@@ -32,29 +32,39 @@ block templates
 
   script#card-view-template(type='javascript/template').
      <div class="front" tabindex='0'>
-        <img src="{{image.url}}"/>
+        <img src="{{image.url}}/convert?w=170&h=250&fit=crop&align=faces"/>
         <div class="caption">
           <p class="name"><strong>{{ title }}</strong></p>
           <p class='blurb'>{{ shortDescription }} </p>
-        </div> 
+        </div>
       </div>
       <div class="back">
         <div class='quotes'>
         <em>
         {{#if heroQuote}}
-          <p>{{ heroQuote }}</p>
+          <p>{{ heroQuote }}
+          {{#if heroQuoteSource}}
+            <a href='#' class='tooltip-trigger' title='{{heroQuoteSource}}'>Source</a>
+          {{/if}}
+          </p>
         {{/if}}
         {{#if villainQuote}}
           <p>{{ villainQuote }}</p>
+          {{#if villainQuoteSource}}
+             <a href='#' class='tooltip-trigger' title='{{villainQuoteSource}}'>Source</a>
+          {{/if}}
         {{/if}}
         {{#if ambiQuote }}
           <p> {{ ambiQuote }}</p>
+          {{#if ambiQuoteSource}}
+             <a href='#' class='tooltip-trigger' title='{{ambiQuoteSource}}'>Source</a>
+          {{/if}}
         {{/if}}
           </em>
         </div>
           <a href='#' id='{{_id}}' class='personInfo' name='{{title}}' onclick='window.event.stopPropagation(); return hs.htmlExpand(this)'>More info</a>
              <div class="highslide-maincontent">
-              <img src="{{image.url}}' alt='A picture of {{title}}"/> 
+              <img src='{{image.url}}/convert?w=170&h=250' alt='A picture of {{title}}'/>
               <em>
                 {{#if heroQuote}}
                   <p>{{ heroQuote }}</p>
@@ -69,7 +79,7 @@ block templates
               <p title="Press Escape to Return to Heroes and Villains." aria-labelledby='{{_id}}'>
                {{fullDescription}}
               </p>
-              <p> 
+              <p>
               {{#if link}}
                 {{#each link}}
                   <a href='{{this}}'> Link </a>
@@ -81,34 +91,4 @@ block templates
 
   script#toolbar-template(type='javascript/template').
     <input type='text' id='flipcard-search' placeholder='Search Names' title='Search for people by name.'>
-     <div class="btn-group" data-toggle="buttons-radio">
-         <fieldset title='Sort persons'>
-      <button class="btn browser-sort" data-sort-field='name'> Name </button>
-      <button class="btn browser-sort" data-sort-field='dates' title='Sort people by date'> Dates </button>
-          </fieldset>     
-    </div>
-
-        <span class='button-label' id='filterBy' role='presentation'>Sort By: </span>
-
-    <div class="btn-group" data-toggle="buttons-radio">
-      <fieldset title='Filter persons'>
-      <select class='browser-filter'>
-        <option value='all'> All Categories </option>
-        <option value='Male'> Males </option>
-        <option value='Female'> Females </option>
-        <option value='Politician'> Politicians </option>
-        <option value='Scientist'> Scientists </option>
-        <option value='Doctor'> Doctors </option>
-        <option value='Feminist'> Feminists </option>
-        <option value='Citizen'> Citizens </option>
-        <option value='Lawyer'> Lawyers </option>
-        <option value='Minister'> Ministers </option>
-        <option value='Academic'> Academics </option>
-        <option value='Businessman'> Businessmen </option>
-
-      </select>
-      </fieldset>
-    </div>
-        <span class='button-label' id='filterBy' role='presentation'>Filter: </span>
-
 

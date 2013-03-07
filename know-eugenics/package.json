@@ -1,13 +1,24 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "livingarchives",
+  "subdomain": "living-archives",
+  "version": "0.0.1-9",
   "private": true,
   "scripts": {
-    "start": "node app"
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "3.0.3",
-    "jade": "*",
-    "stylus": "*"
+    "jade": "0.28.0",
+    "stylus": "0.32.0",
+    "nib": "0.9.1",
+    "moment": "1.7.2",
+    "mongoose": "3.5.4",
+    "underscore": "1.4.3",
+    "nodemailer": "0.3.43",
+    "passport": "0.1.16",
+    "passport-google-oauth": "0.1.5"
+  },
+  "engines": {
+    "node": "0.8.x"
   }
 }

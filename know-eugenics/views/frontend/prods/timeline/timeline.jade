@@ -68,15 +68,15 @@ block content
       </div>
 
     script(type='text/template', id='timeline-image').
-      <a href="<%= image %>" title="Click to display additional information in Pop-up." class="highslide" onclick="return hs.expand(this)">
-          <img class='timeline-image' src="<%= imageThumb %>" alt="<%= name %>" style='height: <%= thumbHeight %>px; width: <%= thumbWidth %>px;'>
-          <span class='caption'> <%= startDate %> : <%= name %> </span>
+      <a href="javascript:void(0)" title="Click to display additional information in Pop-up." class="highslide" onclick="return hs.expand(this)">
+          <img class='timeline-image' src="{{image.url}}" alt="{{name}}" style='height: {{image.metadata.height}}px; width: {{image.metadata.width}}px;'>
+          <span class='caption'> {{startDate}} : {{name}} </span>
       </a>
 
       <div class="highslide-caption">
           <p title="Press Escape to Return to Timeline.">
-              <strong><%= startDate %> : </strong>
-              <%=description%>
+              <strong>{{startDate}} : </strong>
+              {{description}}
           </p>
       </div>
 

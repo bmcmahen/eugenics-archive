@@ -106,11 +106,9 @@ _.extend(TimelineWrapper.prototype, {
 
       if (valid(json[i])) {
 
-        console.log(json[i]);
-        
         // if an image is present, use image template
         if (json[i].image) {
-          compiled = _.template($('#timeline-text').html());
+          compiled = Handlebars.compile($('#timeline-image').html());
           html = compiled(json[i]);
           obj.className = 'text'
 
@@ -122,7 +120,7 @@ _.extend(TimelineWrapper.prototype, {
 
         // otherwise, consider it a regular text entry     
         } else {
-          compiled = _.template($('#timeline-text').html());
+          compiled = Handlebars.compile($('#timeline-text').html());
           html = compiled(json[i]);
           obj.className = 'text'
         }
@@ -142,8 +140,6 @@ _.extend(TimelineWrapper.prototype, {
           obj.start = new Date(json[i].startDate);
 
         obj.content = html; 
-
-        console.log(obj);
 
         processedDatas.push(obj);
       }

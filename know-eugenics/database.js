@@ -1,10 +1,10 @@
-var mongoose = require('mongoose')
-  , _ = require('underscore')
-  , Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    _ = require('underscore'),
+    Schema = mongoose.Schema;
 
 
 // Connect to our Mongod instance
-mongoose.connect('localhost', 'know_eugenics');
+mongoose.connect('mongodb://nodejitsu_bmcmahen:5kqpm14nbjk7vplkjsb0v8mka5@ds051977.mongolab.com:51977/nodejitsu_bmcmahen_nodejitsudb6683642989');
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
@@ -29,3 +29,14 @@ var documentSchema = new Schema({
 }, {strict: false});
 
 exports.Document = mongoose.model('Document', documentSchema);
+
+
+// User Schema for Database Login
+var userSchema = new Schema({
+  googleId: String,
+  name: String,
+  email: String,
+  emailToken: String
+}, {strict: false});
+
+exports.User = mongoose.model('User', userSchema);

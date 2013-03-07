@@ -1,5 +1,6 @@
 var Documents = require('../database').Document;
 
+// Maps type urls to type
 var paramToType = {
   'events' : 'event',
   'ideas' : 'idea',
@@ -9,13 +10,18 @@ var paramToType = {
   'publications' : 'publication'
 }
 
+// Maps prod urls to prod
+var paramToProd = {
+  'heroes-and-villains' : 'heroes',
+  'timeline' : 'timeline'
+}
+
 var init = function(app){
 
   // If an id is present in the route, then I'll query for that
   // document and cache it in req.doc
 
   app.param('id', function(req, res, next, id){
-
     Documents.findById(id, function(err, doc){
       if (err) {
         next(err);
@@ -25,8 +31,7 @@ var init = function(app){
       } else {
         next(new Error('failed to load document'));
       }
-    });
-    
+    }); 
   });
 
   // If a collection is present in the route, then I map
@@ -38,7 +43,8 @@ var init = function(app){
   });
 
   app.param('prod', function(req, res, next, prodName){
-    Documents.find({prods: prodName})
+    console.log(prodName);
+    Documents.find({ prods: paramToProd[prodName] })
       .sort({ title: 'asc' })
       .exec(function(err, prods){
         if (err) {

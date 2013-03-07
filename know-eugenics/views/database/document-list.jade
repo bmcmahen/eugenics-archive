@@ -20,7 +20,7 @@ block content
       tr
         td.image
           if doc.image
-            img(src=doc.image.url)
+            img(src=doc.image.url+'/convert?w=40&h=40&fit=crop&align=faces')
           else
             img(src='/img/thumb-placeholder.png')
         td.title
