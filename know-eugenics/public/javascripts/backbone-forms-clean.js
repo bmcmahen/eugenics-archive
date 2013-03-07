@@ -31,10 +31,8 @@
           shortDescription: {widget: 'text', label: 'Short Description', required: true},
           fullDescription: {widget: 'textarea', label: 'Full Description', required: true},
           image: {widget: 'image', label: 'Image' },
-          resources: {widget: 'formset', label: 'Link', editable: true, fields : [{
-            widget: 'text', name: 'resource', label: 'Resource', required: true
-          }, {
-            widget: 'text', name: 'resourceName', label: 'Resource Name'
+          resources: {widget: 'formset', label: 'Resources', editable: true, fields : [{
+            widget: 'text', name: 'resource', label: 'Resource'
           }]},
           prods: {widget: 'checkbox', fields: [{
             timeline: {
@@ -147,7 +145,6 @@
       // the default form attributes for new submission.
       generateFieldModels: function(){
         var attr = this.formModel.toJSON();
-
         this.type = attr.type;
         this.prods = attr.prods;
 
@@ -164,13 +161,6 @@
                 p.value = 'checked';
               }
               p.name = k;
-            });
-
-          // XXX Implement fieldsets
-          } else if (field.widget === 'fieldset') {
-            field.subfields = _.map(field.fields, function(subfield, key){
-              subfield.name = key;
-              return new FieldModel(subfield);
             });
 
           } else if (!_.isUndefined(attr[key])) {
@@ -286,8 +276,6 @@
 
       className: 'myForm',
 
-      id: 'myForm',
-
       events: {
         'submit' : 'saveForm',
         'change select' : 'alterType',
@@ -381,8 +369,8 @@
 
         // If we have a formset, then append the remove button
         if (this.formModel) {
-          this.$el.append('<button class="remove-form">remove</button>');
-          $(this.$el.find('button.remove-form')).on('click', _.bind(this.removeFormElement, this));
+          this.$el.append('<a href="#" class="remove-form">×</a>');
+          $(this.$el.find('.remove-form')).on('click', _.bind(this.removeFormElement, this));
         }
 
         // To do: Make this less ugly.
@@ -407,15 +395,13 @@
         _.each(this.children, function(child){
           var fieldValid;
           if (child.model.get('widget') === 'formset') {
-            console.log('validate Formsets');
+            if (! child.validateFormset()) valid = false;
           } else {
-            fieldValid = child.model.validateModel();
-            if (fieldValid)
-              valid = false;
+            if (child.model.validateModel()) valid = false;
           }
         });
 
-        if (!valid){
+        if (valid){
           $('#save-form').addClass('disabled');
           this.collection.saveCollection();
         }
@@ -496,6 +482,9 @@
         if (attr.formCollection)
           this.formCollection = attr.formCollection;
 
+        if (attr.model.attributes.name === 'prods')
+          this.$el.addClass('prods');
+
         this.listenTo(this.model, 'invalid', this.render);
         this.listenTo(this.model, 'change:error', this.render);
 
@@ -529,8 +518,8 @@
       // Handle checkboxes and select menus differently from our
       // regular text/textarea inputs.
       parseField: function(){
-        var widget = this.model.get('widget')
-          , $input = this.$el.find(':input[name]:enabled');
+        var widget = this.model.get('widget'),
+            $input = this.$el.find(':input[name]:enabled');
 
         if (widget === 'checkbox') {
           var prods = [];
@@ -567,9 +556,9 @@
       // our field view.
       uploadImage: function(e){
         e.preventDefault();
-        var fileList = e.currentTarget.files
-          , self = this
-          , image;
+        var fileList = e.currentTarget.files,
+            self = this,
+            image;
 
         var currentImage = this.model.get('value');
         if (currentImage){
@@ -591,7 +580,6 @@
 
       removeField: function(e){
         e.preventDefault();
-        console.log(this.formCollection, this.model);
         if (this.formCollection.length > 1)
           this.formCollection.remove(this.model);
       }
@@ -602,7 +590,7 @@
 
       tagName: 'div',
 
-      className: 'formsetView',
+      className: 'formsetView well',
 
       events: {
         'click .add-another' : 'addAnother'
@@ -614,13 +602,23 @@
         var fields = this.fields = this.model.get('fields');
 
         var formCollection = this.formCollection = new Backbone.Collection();
-        var form = new Backbone.Model(fields);
+        var form;
 
-        formCollection.add(form);
+        if (model.value){
+          _.each(model.value, function(item, i){
+            form = new Backbone.Model(fields);
+            formCollection.add(form);
+          });
+        } else {
+          form = new Backbone.Model(fields);
+          formCollection.add(form);
+        }
 
-        formCollection.each(function(form){
+        formCollection.each(function(form, i){
           var fieldCollection = new FieldCollection();
           _.each(form.attributes, function(attr){
+            var val = model[i] && model[i].value;
+            if (val) _.extend(attr, { value: val });
             fieldCollection.add(attr);
           });
           var view = new FormView({
@@ -644,7 +642,7 @@
         }, this);
 
         this.$el.html(elements);
-        this.$el.append('<button class="btn add-another">Add Another</button>');
+        this.$el.append('<button class="btn btn-small add-another">Add Another</button>');
         return this;
       },
 
@@ -658,6 +656,17 @@
           return formvals;
         });
         return parsed;
+      },
+
+      validateFormset: function(){
+        var isValid = true;
+        _.each(this.views, function(view){
+          _.each(view.children, function(child){
+            var valid = child.model.validateModel();
+            if (valid) isValid = false;
+          });
+        });
+        return isValid;
       },
 
       formAdded: function(model){
@@ -758,8 +767,8 @@
 
       setAndSave: function(json){
         // Remove empty fields from our form model
-        var formModel = this.toJSON()
-          , self = this;
+        var formModel = this.toJSON(),
+            self = this;
 
         // this also borks our _id
         _.each(formModel, function(obj, key){
@@ -772,9 +781,9 @@
 
 
         this.save({}, { success: function(model, xhr, options){
-          var typeString = typeToParam[self.get('type')]
-            , id = model.id
-            , host = window.location.host;
+          var typeString = typeToParam[self.get('type')],
+              id = model.id,
+              host = window.location.host;
 
           window.location = 'http://' + host + '/database/' + typeString + '/' + id;
         }});
@@ -799,9 +808,9 @@
 
       // Redirect to where the element was listed.
       redirectPage: function(){
-        var host = window.location.host
-          , pathname = window.location.pathname
-          , prods = ['heroes-and-villains', 'timeline'];
+        var host = window.location.host,
+            pathname = window.location.pathname,
+            prods = ['heroes-and-villains', 'timeline'];
 
         // This is a silly hack.
         var arr = pathname.split('/');

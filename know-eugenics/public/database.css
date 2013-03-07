@@ -5,15 +5,55 @@ body {
 h1 {
   text-align: center;
 }
-#myForm {
-  width: 450px;
+.myForm {
+  width: 100%;
+  position: relative;
 }
-#myForm textarea {
+.myForm textarea {
   height: 200px;
 }
-#myForm textarea,
-#myForm input[type='text'],
-#myForm select {
+#form-wrapper {
+  width: 100%;
+}
+.remove-form {
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  border: 1px solid #ddd;
+  padding: 2px 8px;
+  line-height: 19px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  background: #fff;
+  color: #000;
+}
+.remove-form:hover {
+  background: #eee;
+  text-decoration: none;
+}
+.formsetView {
+  max-width: 450px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.formsetView .myForm {
+  width: 90%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.formsetView .myForm .form-field {
+  width: auto;
+}
+.prods {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.myForm textarea,
+.myForm input[type='text'],
+.myForm select {
   display: block;
   width: 100%;
   min-height: 35px;
@@ -31,6 +71,17 @@ h2 {
   font-size: 25px;
   line-height: 25px;
   text-transform: capitalize;
+}
+h5 {
+  font-size: 14px;
+  font-weight: normal !important;
+  margin: 0 0 5px 0 !important;
+}
+.well {
+  margin-bottom: 10px !important;
+}
+span.help-block {
+  font-size: 12px;
 }
 p.blurb {
   text-align: center;
@@ -130,8 +181,12 @@ h4 {
   margin-bottom: 15px;
 }
 input[type='checkbox'] {
-  margin: 8px;
-  margin-top: 5px;
+  margin: 0 5px !important;
+  vertical-align: top;
+}
+.form-field.prods .prod {
+  line-height: 14px;
+  margin: 10px 0;
 }
 .navbar .navbar-inner {
   position: relative;
@@ -149,6 +204,7 @@ label {
 }
 .form-field {
   margin-bottom: 15px;
+  width: 450px;
 }
 span.help-block {
   margin-top: 2px;
