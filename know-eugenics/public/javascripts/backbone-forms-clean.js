@@ -137,7 +137,7 @@
         });
 
         console.log(json);
-        // this.formModel.setAndSave(json);
+        this.formModel.setAndSave(json);
       },
 
       // Generate a collection of field models that correspond
@@ -377,7 +377,7 @@
         if (this.isBase){
           this.$el.append('<input type="submit" id="save-form" class="btn btn-primary" value="Save">');
           if (this.dataModel && !this.dataModel.isNew()) {
-            this.$el.append('<a id="delete-form" class="delete btn btn-danger pull-right">Delete</a>');
+            this.$el.append('<a id="delete-form" class="delete btn btn-danger">Delete</a>');
           }
         }
 
@@ -604,8 +604,9 @@
         var formCollection = this.formCollection = new Backbone.Collection();
         var form;
 
-        if (model.value){
-          _.each(model.value, function(item, i){
+        if (model.get('value')){
+          console.log('model value present!');
+          _.each(model.get('value'), function(item, i){
             form = new Backbone.Model(fields);
             formCollection.add(form);
           });
@@ -614,10 +615,14 @@
           formCollection.add(form);
         }
 
+        // This is so stupidly complicated. There is a better way, which
+        // I should implement if I ever have time...
         formCollection.each(function(form, i){
           var fieldCollection = new FieldCollection();
           _.each(form.attributes, function(attr){
-            var val = model[i] && model[i].value;
+            var val = model.get('value') &&
+                      model.get('value')[i] &&
+                      model.get('value')[i][attr.name];
             if (val) _.extend(attr, { value: val });
             fieldCollection.add(attr);
           });
@@ -770,15 +775,12 @@
         var formModel = this.toJSON(),
             self = this;
 
-        // this also borks our _id
         _.each(formModel, function(obj, key){
           if (! _.has(json, key) && key !== '_id' && key !== 'created')
             this.unset(key);
         }, this);
 
         this.set(json);
-        console.log('hello?', this);
-
 
         this.save({}, { success: function(model, xhr, options){
           var typeString = typeToParam[self.get('type')],

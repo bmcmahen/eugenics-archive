@@ -50,6 +50,10 @@ var init = function(app){
   });
 
   // Login using Google oAuth
+  // What I need to do is have two different strategies, one
+  // for when token is present, and one without token present.
+  // The strategy in which token is present will authenticate
+  // any user.
   app.get('/auth/login/google', passport.authenticate('google', {
     scope: ['https://www.googleapis.com/auth/userinfo.profile',
             'https://www.googleapis.com/auth/userinfo.email']
@@ -63,7 +67,7 @@ var init = function(app){
 
   // Google oAuth callback handler
   app.get('/auth/google/return',
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: '/auth/login' }),
     function(req, res){
       res.redirect('/database');
     });
@@ -76,12 +80,10 @@ var init = function(app){
       if (!usr) {
         // Create user
         var token = generateToken();
-        console.log('token', token);
         Users.create({ email: email, token: token }, function(err, user){
-          if (!err) send(email, user.token);
+          if (!err) send(email, token);
         });
       } else {
-        console.log('else', usr);
         if (!err) send(usr.email, usr.token);
       }
     });

@@ -31,22 +31,36 @@ passport.deserializeUser(function(id, done){
 // (1) You can properly authenticate a Google Account.
 // (2) The Google Account ID exists in our database.
 // (3) You have visited the site with a loginToken that belongs to the user.
-passport.use(new GoogleStrategy({
+
+// Developer oAuth:
+var devCredentials = {
+	passReqToCallback: true,
+	clientID: '1013795292734-j1uinst243dmhkrbcsolnhh3rk914ufa.apps.googleusercontent.com',
+	clientSecret: 'NQc-_TbMe0-KmbcSRKPTCtCb',
+	callbackURL: 'http://127.0.0.1:3000/auth/google/return'
+};
+
+// Production oAuth
+var credentials = {
 	passReqToCallback: true,
 	clientID: '1013795292734.apps.googleusercontent.com',
 	clientSecret: 'Ib-YUdtjWgiUqrFPpeGhFmnP',
-	callbackURL: 'http://127.0.0.1:3000/auth/google/return'
-}, function(req, token, tokenSecret, profile, next) {
+	callbackURL: 'http://living-archives.nodejitsu.com/auth/google/return'
+};
+
+passport.use(new GoogleStrategy(credentials,
+	function(req, token, tokenSecret, profile, next) {
 	Users.findOne({ '$or' :
-			[{ googleId: profile.id }, { loginToken: req.session.token }]
+			[{ googleId: profile.id }, { token: req.session.token }]
 		}, function(err, usr) {
 			if (usr && usr.googleId == null) {
 				usr.set({ googleId: profile.id, name: profile.displayName });
 				usr.save(function(err, usr){
 					next(err, usr);
 				});
+			} else {
+				next(err, usr);
 			}
-			next(err, usr);
 	});
 }));
 

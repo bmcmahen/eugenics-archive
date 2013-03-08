@@ -12,7 +12,6 @@ var smptTransport = exports.smtpTransport = nodemailer.createTransport('SMTP', {
 });
 
 var mailOptions = exports.mailOptions = function(email, token) {
-	console.log(email, token);
 	var opts = {
 		from: 'Living Archives on Eugenics <do-not-reply@eugenicsarchive.ca',
 		to: email,
@@ -20,7 +19,7 @@ var mailOptions = exports.mailOptions = function(email, token) {
 	};
 	var body = 'You have been invited to access the LAE Database. To access '+
 					'the database, please click on the following link, and login '+
-					'using your Google Account.\n\n http://127.0.0.1:3000/auth/login/'+
+					'using your Google Account.\n\n http://living-archives.nodejitsu.com/auth/login/'+
 					token;
 	opts.text = body;
 	return opts;
