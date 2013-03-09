@@ -7,7 +7,7 @@ var smptTransport = exports.smtpTransport = nodemailer.createTransport('SMTP', {
 	service: 'SendGrid',
 	auth: {
 		user: 'bmcmahen',
-		pass: 'dfgpxd' // We should store this elsewhere...
+		pass: '' // We should store this elsewhere...
 	}
 });
 
